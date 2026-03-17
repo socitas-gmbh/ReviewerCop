@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- CC0001: NoTodoComments -->
+  <data name="NoTodoCommentsTitle" xml:space="preserve">
+    <value>Do not leave TODO comments in finished code</value>
+  </data>
+  <data name="NoTodoCommentsMessageFormat" xml:space="preserve">
+    <value>TODO comment found. Remove or resolve all TODO comments before completing the implementation.</value>
+  </data>
+  <data name="NoTodoCommentsDescription" xml:space="preserve">
+    <value>TODO comments indicate unfinished work. All TODO comments must be resolved before a pull request is merged. Use work items or tasks to track remaining work instead.</value>
+  </data>
+
+  <!-- CC0002: NoGlobalVariables -->
+  <data name="NoGlobalVariablesTitle" xml:space="preserve">
+    <value>Avoid global variables in AL objects</value>
+  </data>
+  <data name="NoGlobalVariablesMessageFormat" xml:space="preserve">
+    <value>Global variable '{0}' should be avoided. Pass variables as parameters or use local variables instead.</value>
+  </data>
+  <data name="NoGlobalVariablesDescription" xml:space="preserve">
+    <value>Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables.</value>
+  </data>
+
+  <!-- CC0003: ValidateFieldAssignments -->
+  <data name="ValidateFieldAssignmentsTitle" xml:space="preserve">
+    <value>Field assignments should use Validate</value>
+  </data>
+  <data name="ValidateFieldAssignmentsMessageFormat" xml:space="preserve">
+    <value>Direct assignment to field '{0}' bypasses validation triggers. Use Validate() to ensure business rules are enforced.</value>
+  </data>
+  <data name="ValidateFieldAssignmentsDescription" xml:space="preserve">
+    <value>Direct field assignments bypass the OnValidate trigger, which may contain important business logic. Use the Validate method to ensure all validation logic is executed when assigning field values.</value>
+  </data>
+
+  <!-- CC0004: NoTypeOrPrefixInVariableName -->
+  <data name="NoTypeOrPrefixInVariableNameTitle" xml:space="preserve">
+    <value>Avoid type names and Hungarian-style prefixes in variable names</value>
+  </data>
+  <data name="NoTypeOrPrefixInVariableNameMessageFormat" xml:space="preserve">
+    <value>Variable name '{0}' contains a type name or Hungarian-style prefix (lrec, grec). Use descriptive, intention-revealing names instead.</value>
+  </data>
+  <data name="NoTypeOrPrefixInVariableNameDescription" xml:space="preserve">
+    <value>Variable names should be descriptive and intention-revealing. Avoid prefixes like 'lrec', 'grec' and type names like 'Integer', 'Boolean', 'Text' embedded in variable names. This follows clean code naming conventions.</value>
+  </data>
+
+  <!-- Code actions -->
+  <data name="NoTodoCommentsCodeAction" xml:space="preserve">
+    <value>ALCops: Remove TODO comment</value>
+  </data>
+  <data name="ValidateFieldAssignmentsCodeAction" xml:space="preserve">
+    <value>ALCops: Replace with Validate()</value>
+  </data>
+  <data name="NoModifyInOnValidateCodeAction" xml:space="preserve">
+    <value>ALCops: Remove Modify() call</value>
+  </data>
+  <data name="DataClassificationOnTableCodeAction" xml:space="preserve">
+    <value>ALCops: Remove redundant DataClassification from field</value>
+  </data>
+
+  <!-- CC0005: EventSubscriberNamingConvention -->
+  <data name="EventSubscriberNamingConventionCodeAction" xml:space="preserve">
+    <value>ALCops: Rename to '{0}'</value>
+  </data>
+  <data name="EventSubscriberNamingConventionTitle" xml:space="preserve">
+    <value>Event subscriber procedures must end with the event name</value>
+  </data>
+  <data name="EventSubscriberNamingConventionMessageFormat" xml:space="preserve">
+    <value>Event subscriber procedure '{0}' does not end with the event name '{1}' (e.g., 'SetRefOrderTypeInitValue{1}').</value>
+  </data>
+  <data name="EventSubscriberNamingConventionDescription" xml:space="preserve">
+    <value>Event subscriber procedures must follow the FunctionName+EventName convention: the procedure name must end with the subscribed event name. For example, a subscriber to 'OnBeforeInsertEvent' should be named 'SetRefOrderTypeInitValueOnBeforeInsertEvent'.</value>
+  </data>
+
+  <!-- CC0006: UseSetLoadFields -->
+  <data name="UseSetLoadFieldsTitle" xml:space="preserve">
+    <value>Use SetLoadFields for performance-critical record reads</value>
+  </data>
+  <data name="UseSetLoadFieldsMessageFormat" xml:space="preserve">
+    <value>Record read using '{0}' without a preceding SetLoadFields call. Use SetLoadFields to load only the required fields for better performance.</value>
+  </data>
+  <data name="UseSetLoadFieldsDescription" xml:space="preserve">
+    <value>When reading records using FindSet, FindFirst, FindLast, or Find, use SetLoadFields to specify only the fields needed. This reduces the amount of data transferred from the database and improves performance, especially for wide tables.</value>
+  </data>
+
+  <!-- CC0008: NoModifyInOnValidate -->
+  <data name="NoModifyInOnValidateTitle" xml:space="preserve">
+    <value>Do not call Modify() inside an OnValidate trigger</value>
+  </data>
+  <data name="NoModifyInOnValidateMessageFormat" xml:space="preserve">
+    <value>Modify() called inside an OnValidate trigger. The calling code is responsible for persisting the record; calling Modify() here can cause unexpected double-saves or infinite loops.</value>
+  </data>
+  <data name="NoModifyInOnValidateDescription" xml:space="preserve">
+    <value>Calling Modify() inside an OnValidate trigger bypasses the expected save flow and can cause double-saves, infinite trigger loops, or data-integrity issues. The code that sets the field value is responsible for calling Modify() afterwards.</value>
+  </data>
+
+  <!-- CC0009: DataClassificationOnTable -->
+  <data name="DataClassificationOnTableTitle" xml:space="preserve">
+    <value>Set DataClassification as a table-level property, not per field</value>
+  </data>
+  <data name="DataClassificationOnTableMessageFormat" xml:space="preserve">
+    <value>DataClassification is already set at the table level and should not be repeated on individual fields. Remove the per-field DataClassification property.</value>
+  </data>
+  <data name="DataClassificationOnTableDescription" xml:space="preserve">
+    <value>When DataClassification is set as a table property it applies to all fields automatically. Repeating the same classification on individual fields is redundant. Set DataClassification once on the table and remove per-field declarations.</value>
+  </data>
+
+  <!-- CC0010: LabelCommentForPlaceholders -->
+  <data name="LabelCommentForPlaceholdersTitle" xml:space="preserve">
+    <value>Labels with placeholders must have a Comment property</value>
+  </data>
+  <data name="LabelCommentForPlaceholdersMessageFormat" xml:space="preserve">
+    <value>Label contains placeholders (%1, %2, #1, etc.) but has no Comment property. Add a Comment describing what each placeholder represents (e.g., Comment = '%1 = Customer Name').</value>
+  </data>
+  <data name="LabelCommentForPlaceholdersDescription" xml:space="preserve">
+    <value>Labels that use placeholders (%1, %2, #1, #2, etc.) must declare a Comment property that explains what each placeholder will be replaced with. This is required for correct XLIFF translations and code readability.</value>
+  </data>
+</root>

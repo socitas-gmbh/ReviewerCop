@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+        <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">net8.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.1;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>Latest</LangVersion>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8605</WarningsAsErrors>
+        <GenerateFullPaths>true</GenerateFullPaths>
+
+        <!-- Path to BC dev tools may be overridden by /p:BcDevToolsDir= -->
+        <BcDevToolsDir Condition="'$(BcDevToolsDir)'==''">../../Microsoft.Dynamics.BusinessCentral.Development.Tools</BcDevToolsDir>
+
+        <!-- NuGet package -->
+        <PackageId>ALCops.CompanyCop</PackageId>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <DevelopmentDependency>true</DevelopmentDependency>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Condition="'$(ContinuousIntegrationBuild)' == 'true'" Remove="ALCops.CompanyCopAnalyzers.cs" />
+        <EmbeddedResource Update="ALCops.CompanyCopAnalyzers.resx">
+            <Generator>MSBuild:Compile</Generator>
+            <StronglyTypedLanguage>CSharp</StronglyTypedLanguage>
+            <StronglyTypedNamespace>ALCops.CompanyCop</StronglyTypedNamespace>
+            <StronglyTypedFileName>ALCops.CompanyCopAnalyzers.cs</StronglyTypedFileName>
+            <StronglyTypedClassName>CompanyCopAnalyzers</StronglyTypedClassName>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../ALCops.Common/ALCops.Common.csproj" />
+    </ItemGroup>
+
+    <!-- BC Dev Tools -->
+    <ItemGroup>
+        <Reference Include="Microsoft.Dynamics.Nav.CodeAnalysis">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>$(BcDevToolsDir)/$(TargetFramework)/Microsoft.Dynamics.Nav.CodeAnalysis.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.Dynamics.Nav.CodeAnalysis.Workspaces">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>$(BcDevToolsDir)/$(TargetFramework)/Microsoft.Dynamics.Nav.CodeAnalysis.Workspaces.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="System.Composition.AttributedModel">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>$(BcDevToolsDir)/$(TargetFramework)/System.Composition.AttributedModel.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Legacy support for netstandard2.1 -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+        <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    </ItemGroup>
+
+    <!-- Package DLLs for both TFMs -->
+    <ItemGroup>
+        <None Include="$(OutputPath)netstandard2.1/ALCops.Common.dll" Pack="true" PackagePath="lib/netstandard2.1" Visible="false" />
+        <None Include="$(OutputPath)net8.0/ALCops.Common.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
+        <None Include="$(OutputPath)netstandard2.1/ALCops.CompanyCop.dll" Pack="true" PackagePath="lib/netstandard2.1" Visible="false" />
+        <None Include="$(OutputPath)net8.0/ALCops.CompanyCop.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
+    </ItemGroup>
+</Project>

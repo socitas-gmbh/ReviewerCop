@@ -1,0 +1,15 @@
+## .NET
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+.vs/
+
+## NuGet
+*.nupkg
+*.snupkg
+
+## Test results
+TestResults/
+*.trx

@@ -1,0 +1,136 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - "release/**"
+    paths:
+      - "src/**"
+      - "**/*.sln"
+      - "**/*.csproj"
+      - "**/*.props"
+      - "**/*.targets"
+      - "Directory.Packages.props"
+      - "Directory.Build.props"
+      - "global.json"
+      - "nuget.config"
+      - "GitVersion.yml"
+      - ".config/dotnet-tools.json"
+      - ".github/workflows/**"
+      - ".github/actions/**"
+      - "!**/*.md"
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
+jobs:
+  build-and-test:
+    uses: ./.github/workflows/build-test.yml
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+      pull-requests: write
+    with:
+      draft-check: false
+
+  release:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    name: Release
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup BC DevTools (v${{ needs.build-and-test.outputs.tfm-netstandard21-version-lowest }})
+        uses: ./.github/actions/setup-bc-devtools
+        with:
+          sources: ${{ needs.build-and-test.outputs.bc-devtools-sources }}
+          version-number: ${{ needs.build-and-test.outputs.tfm-netstandard21-version-lowest }}
+          target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/netstandard2.1
+
+      - name: Setup BC DevTools (v${{ needs.build-and-test.outputs.tfm-net80-version-lowest }})
+        uses: ./.github/actions/setup-bc-devtools
+        with:
+          sources: ${{ needs.build-and-test.outputs.bc-devtools-sources }}
+          version-number: ${{ needs.build-and-test.outputs.tfm-net80-version-lowest }}
+          target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/net8.0
+
+      # Git Version
+      - name: GitVersion - Setup
+        uses: gittools/actions/gitversion/setup@v4.3.3
+        with:
+          versionSpec: "6.3.x"
+
+      - name: GitVersion - Determine
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v4.3.3
+
+      # Pack and publish
+      - name: Pack
+        run: >
+          dotnet pack ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj
+          --configuration Release
+          --output ./artifacts
+          /p:ContinuousIntegrationBuild=true
+          /p:EmbedUntrackedSources=true
+          /p:RepositoryType=git
+          /p:RepositoryUrl=https://github.com/${{ github.repository }}
+          /p:RepositoryCommit=${{ steps.gitversion.outputs.Sha }}
+          /p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
+          /p:AssemblyVersion=${{ steps.gitversion.outputs.AssemblySemVer }}
+          /p:FileVersion=${{ steps.gitversion.outputs.AssemblySemFileVer }}
+          /p:InformationalVersion="${{ steps.gitversion.outputs.InformationalVersion }}"
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v6
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          ignorePreReleases: ${{ steps.gitversion.outputs.PreReleaseTag == '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          tag_name: v${{ steps.gitversion.outputs.SemVer }}
+          name: v${{ steps.gitversion.outputs.SemVer }}
+          body: ${{ steps.build_changelog.outputs.changelog }}
+          prerelease: ${{ steps.gitversion.outputs.PreReleaseTag != '' }}
+          files: |
+            ./artifacts/*.nupkg
+
+      - name: Publish to GitHub Packages
+        run: >
+          dotnet nuget push "./artifacts/*.nupkg"
+          --no-symbols
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          --skip-duplicate
+
+      - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ -z "$NUGET_API_KEY" ]; then
+            echo "NUGET_API_KEY not configured"; exit 1
+          fi
+          dotnet nuget push ./artifacts/*.nupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
