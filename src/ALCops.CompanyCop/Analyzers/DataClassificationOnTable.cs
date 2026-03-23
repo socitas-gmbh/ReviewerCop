@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using ALCops.Common.Reflection;
 using Microsoft.Dynamics.Nav.CodeAnalysis;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Diagnostics;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
@@ -21,43 +20,44 @@ public sealed class DataClassificationOnTable : DiagnosticAnalyzer
         ImmutableArray.Create(DiagnosticDescriptors.DataClassificationOnTable);
 
     public override void Initialize(AnalysisContext context) =>
-        context.RegisterSyntaxNodeAction(
-            CheckTableDataClassification,
-            EnumProvider.SyntaxKind.TableObject);
+        context.RegisterSyntaxTreeAction(CheckTableDataClassification);
 
-    private void CheckTableDataClassification(SyntaxNodeAnalysisContext ctx)
+    private void CheckTableDataClassification(SyntaxTreeAnalysisContext ctx)
     {
-        var tableNode = ctx.Node;
-        bool hasTableLevelDataClassification = false;
-        var fieldLevelTokens = new List<SyntaxToken>();
-
-        foreach (var token in tableNode.DescendantTokens())
+        var root = ctx.Tree.GetRoot(ctx.CancellationToken);
+        foreach (var tableNode in root.DescendantNodes().Where(n => IsSyntaxKind(n, "TableObject")))
         {
-            if (token.Kind != SyntaxKind.IdentifierToken)
+            bool hasTableLevelDataClassification = false;
+            var fieldLevelTokens = new List<SyntaxToken>();
+
+            foreach (var token in tableNode.DescendantTokens())
+            {
+                if (!IsSyntaxKind(token, "IdentifierToken"))
+                    continue;
+
+                if (!string.Equals(token.ValueText, DataClassificationProperty, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                // Must be a property assignment (identifier followed by '=')
+                var next = token.GetNextToken();
+                if (!IsSyntaxKind(next, "EqualsToken"))
+                    continue;
+
+                if (IsInsideFieldNode(token))
+                    fieldLevelTokens.Add(token);
+                else
+                    hasTableLevelDataClassification = true;
+            }
+
+            if (!hasTableLevelDataClassification || fieldLevelTokens.Count == 0)
                 continue;
 
-            if (!string.Equals(token.ValueText, DataClassificationProperty, StringComparison.OrdinalIgnoreCase))
-                continue;
-
-            // Must be a property assignment (identifier followed by '=')
-            var next = token.GetNextToken();
-            if (next.Kind != SyntaxKind.EqualsToken)
-                continue;
-
-            if (IsInsideFieldNode(token))
-                fieldLevelTokens.Add(token);
-            else
-                hasTableLevelDataClassification = true;
-        }
-
-        if (!hasTableLevelDataClassification || fieldLevelTokens.Count == 0)
-            return;
-
-        foreach (var token in fieldLevelTokens)
-        {
-            ctx.ReportDiagnostic(Diagnostic.Create(
-                DiagnosticDescriptors.DataClassificationOnTable,
-                token.GetLocation()));
+            foreach (var token in fieldLevelTokens)
+            {
+                ctx.ReportDiagnostic(Diagnostic.Create(
+                    DiagnosticDescriptors.DataClassificationOnTable,
+                    token.GetLocation()));
+            }
         }
     }
 
@@ -66,12 +66,22 @@ public sealed class DataClassificationOnTable : DiagnosticAnalyzer
         var node = token.Parent;
         while (node is not null)
         {
-            if (node.Kind == SyntaxKind.Field)
+            if (IsSyntaxKind(node, "Field"))
                 return true;
-            if (node.Kind == SyntaxKind.TableObject)
+            if (IsSyntaxKind(node, "TableObject"))
                 return false;
             node = node.Parent;
         }
         return false;
+    }
+
+    private static bool IsSyntaxKind(SyntaxNode node, string expectedKindName)
+    {
+        return string.Equals(node.Kind.ToString(), expectedKindName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsSyntaxKind(SyntaxToken token, string expectedKindName)
+    {
+        return string.Equals(token.Kind.ToString(), expectedKindName, StringComparison.OrdinalIgnoreCase);
     }
 }

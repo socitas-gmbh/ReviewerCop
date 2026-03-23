@@ -38,7 +38,7 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
         if (ctx.Operation is not IInvocationExpression invocation)
             return;
 
-        if (invocation.TargetMethod.MethodKind != EnumProvider.MethodKind.BuiltInMethod)
+        if (!string.Equals(invocation.TargetMethod.MethodKind.ToString(), "BuiltInMethod", StringComparison.OrdinalIgnoreCase))
             return;
 
         if (!FindMethods.Contains(invocation.TargetMethod.Name))
@@ -111,9 +111,9 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
 
         // The Find call's parent expression must contain a Next() call on the same receiver
         var parentExpr = invocation.Syntax.Parent;
-        while (parentExpr is not null &&
-               parentExpr.Kind != EnumProvider.SyntaxKind.LogicalAndExpression &&
-               parentExpr.Kind != EnumProvider.SyntaxKind.IfStatement)
+         while (parentExpr is not null &&
+             !IsSyntaxKind(parentExpr, "LogicalAndExpression") &&
+             !IsSyntaxKind(parentExpr, "IfStatement"))
         {
             parentExpr = parentExpr.Parent;
         }
@@ -128,13 +128,13 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
         // Look for a Next() call on the same receiver within the same expression
         foreach (var token in parentExpr.DescendantTokens())
         {
-            if (token.Kind != SyntaxKind.IdentifierToken)
+            if (!IsSyntaxKind(token, "IdentifierToken"))
                 continue;
             if (!string.Equals(token.ValueText, "Next", StringComparison.OrdinalIgnoreCase))
                 continue;
 
             var prevDot = token.GetPreviousToken();
-            if (prevDot.Kind != SyntaxKind.DotToken)
+            if (!IsSyntaxKind(prevDot, "DotToken"))
                 continue;
 
             var receiver = prevDot.GetPreviousToken();
@@ -149,8 +149,8 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
     {
         var current = node;
         while (current is not null &&
-               current.Kind != SyntaxKind.TriggerDeclaration &&
-               current.Kind != SyntaxKind.MethodDeclaration)
+               !IsSyntaxKind(current, "TriggerDeclaration") &&
+               !IsSyntaxKind(current, "MethodDeclaration"))
         {
             current = current.Parent;
         }
@@ -182,7 +182,7 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
                 }
 
                 if (arg.DescendantTokens().Any(token =>
-                    token.Kind == SyntaxKind.IdentifierToken &&
+                    IsSyntaxKind(token, "IdentifierToken") &&
                     string.Equals(token.ValueText, receiverName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return true;
@@ -191,6 +191,16 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
         }
 
         return false;
+    }
+
+    private static bool IsSyntaxKind(SyntaxNode node, string expectedKindName)
+    {
+        return string.Equals(node.Kind.ToString(), expectedKindName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsSyntaxKind(SyntaxToken token, string expectedKindName)
+    {
+        return string.Equals(token.Kind.ToString(), expectedKindName, StringComparison.OrdinalIgnoreCase);
     }
 
     private static ImmutableHashSet<string> GetUsedFieldNames(
