@@ -15,13 +15,6 @@
         <!-- Input knobs -->
         <NavTargetFramework Condition="'$(NavTargetFramework)'==''">net8.0</NavTargetFramework>
 
-         <!-- Derived booleans -->
-        <IsLegacyNavTfm Condition="'$(NavTargetFramework)'=='netstandard2.0' Or '$(NavTargetFramework)'=='netstandard2.1'">true</IsLegacyNavTfm>
-
-        <!-- Normalized TFM used for binary refs -->
-        <NavBinaryTfm Condition="'$(IsLegacyNavTfm)'=='true'">netstandard2.1</NavBinaryTfm>
-        <NavBinaryTfm Condition="'$(IsLegacyNavTfm)'!='true'">net8.0</NavBinaryTfm>
-
         <!-- Path to BC dev tools may be overridden by /p:BcDevToolsDir= -->
         <BcDevToolsDir Condition="'$(BcDevToolsDir)'==''">../../Microsoft.Dynamics.BusinessCentral.Development.Tools</BcDevToolsDir>
     </PropertyGroup>
@@ -44,33 +37,22 @@
         <ProjectReference Include="../ALCops.CompanyCop/ALCops.CompanyCop.csproj" />
     </ItemGroup>
 
-    <!-- Binary dependencies; definition driven by NavBinaryTfm and Configuration -->
+    <!-- Binary dependencies used in CI -->
     <ItemGroup Condition="'$(ContinuousIntegrationBuild)' == 'true'">
         <Reference Include="ALCop.Common">
-            <HintPath>../ALCops.Common/bin/$(Configuration)/$(NavBinaryTfm)/ALCops.Common.dll</HintPath>
+            <HintPath>../ALCops.Common/bin/$(Configuration)/net8.0/ALCops.Common.dll</HintPath>
             <Private>True</Private>
         </Reference>
         <Reference Include="ALCop.CompanyCop">
-            <HintPath>../ALCops.CompanyCop/bin/$(Configuration)/$(NavBinaryTfm)/ALCops.CompanyCop.dll</HintPath>
+            <HintPath>../ALCops.CompanyCop/bin/$(Configuration)/net8.0/ALCops.CompanyCop.dll</HintPath>
             <Private>True</Private>
         </Reference>
     </ItemGroup>
 
     <!-- RoslynTestKit -->
-    <ItemGroup Condition="'$(IsLegacyNavTfm)'!='true'">
+    <ItemGroup>
         <PackageReference Include="ALCops.RoslynTestKit" Version="0.4.1" />
         <PackageReference Include="ApprovalTests" Version="3.0.2" /> <!-- needed by RoslynTestKit for diff output on failure -->
-    </ItemGroup>
-
-    <!-- On legacy NAV TFMs, suppress package assets and directly reference the netstandard2.1 DLL -->
-    <ItemGroup Condition="'$(IsLegacyNavTfm)'=='true'">
-        <PackageReference Include="ALCops.RoslynTestKit" Version="0.4.1"
-                            ExcludeAssets="all"
-                            IncludeAssets="none"
-                            GeneratePathProperty="true" />
-        <Reference Include="$(PkgALCops_RoslynTestKit)/lib/netstandard2.1/RoslynTestKit.dll">
-            <Private>True</Private>
-        </Reference>
     </ItemGroup>
 
     <!-- BC Dev Tools -->

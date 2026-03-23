@@ -149,11 +149,7 @@ public static class EnumProvider
         private static readonly Lazy<NavCodeAnalysis.InternalSyntax.AttributeKind> _filterPageHandler =
             new(() => ParseEnum<NavCodeAnalysis.InternalSyntax.AttributeKind>(nameof(NavCodeAnalysis.InternalSyntax.AttributeKind.FilterPageHandler)));
         private static readonly Lazy<NavCodeAnalysis.InternalSyntax.AttributeKind> _httpClientHandler =
-#if NETSTANDARD2_1
-            new(() => ParseEnum<NavCodeAnalysis.InternalSyntax.AttributeKind>("HttpClientHandler"));
-#else
             new(() => ParseEnum<NavCodeAnalysis.InternalSyntax.AttributeKind>(nameof(NavCodeAnalysis.InternalSyntax.AttributeKind.HttpClientHandler)));
-#endif
         private static readonly Lazy<NavCodeAnalysis.InternalSyntax.AttributeKind> _hyperlinkHandler =
             new(() => ParseEnum<NavCodeAnalysis.InternalSyntax.AttributeKind>(nameof(NavCodeAnalysis.InternalSyntax.AttributeKind.HyperlinkHandler)));
         private static readonly Lazy<NavCodeAnalysis.InternalSyntax.AttributeKind> _inherentPermissions =
@@ -520,13 +516,8 @@ public static class EnumProvider
     /// </summary>
     public static class MaskTypeKind
     {
-#if NETSTANDARD2_1
-        public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
-            new Lazy<ImmutableDictionary<string, string>>(() => ImmutableDictionary<string, string>.Empty, LazyThreadSafetyMode.PublicationOnly);
-#else
         public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
             CreateEnumDictionaryByName("Microsoft.Dynamics.Nav.CodeAnalysis.MaskTypeKind");
-#endif
     }
 
     /// <summary>
@@ -872,13 +863,8 @@ public static class EnumProvider
     /// </summary>
     public static class PromptModeKind
     {
-#if NETSTANDARD2_1
-        public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
-            new Lazy<ImmutableDictionary<string, string>>(() => ImmutableDictionary<string, string>.Empty, LazyThreadSafetyMode.PublicationOnly);
-#else
         public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
             CreateEnumDictionary<NavCodeAnalysis.PromptModeKind>();
-#endif
     }
 
     /// <summary>
@@ -1156,13 +1142,8 @@ public static class EnumProvider
     /// </summary>
     public static class TestHttpRequestPolicyKind
     {
-#if NETSTANDARD2_1
-        public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
-            new Lazy<ImmutableDictionary<string, string>>(() => ImmutableDictionary<string, string>.Empty, LazyThreadSafetyMode.PublicationOnly);
-#else
         public static readonly Lazy<ImmutableDictionary<string, string>> CanonicalNames =
             CreateEnumDictionary<NavCodeAnalysis.TestHttpRequestPolicyKind>();
-#endif
     }
 
     /// <summary>
@@ -1399,17 +1380,9 @@ public static class EnumProvider
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _codeunitObject =
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.CodeunitObject)));
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _conditionalExpression =
-#if NETSTANDARD2_1 || NET8_0
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>("ConditionalExpression"));
-#else
-            new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.ConditionalExpression)));
-#endif
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _continueKeyword =
-#if NETSTANDARD2_1 || NET8_0
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>("ContinueKeyword"));
-#else
-            new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.ContinueKeyword)));
-#endif
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _controlAddInObject =
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.ControlAddInObject)));
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _commaSeparatedIdentifierEqualsLiteralList =
@@ -1561,11 +1534,7 @@ public static class EnumProvider
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _pagePart =
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.PagePart)));
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _pageSystemAction =
-#if NETSTANDARD2_1 || NET8_0
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>("PageSystemAction"));
-#else
-            new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.PageSystemAction)));
-#endif
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _pageSystemPart =
             new(() => ParseEnum<NavCodeAnalysis.SyntaxKind>(nameof(NavCodeAnalysis.SyntaxKind.PageSystemPart)));
         private static readonly Lazy<NavCodeAnalysis.SyntaxKind> _pageView =

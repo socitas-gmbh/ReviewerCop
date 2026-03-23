@@ -26,7 +26,7 @@ This project is based on and inspired by [ALCops/Analyzers](https://github.com/A
 
 ## Building
 
-**Prerequisites:** .NET 8 SDK and BC Development Tools (obtained automatically in CI via the provided GitHub Actions).
+**Prerequisites:** .NET 8 SDK and BC Development Tools for supported Business Central versions 16 and later (obtained automatically in CI via the provided GitHub Actions).
 
 ```bash
 dotnet build

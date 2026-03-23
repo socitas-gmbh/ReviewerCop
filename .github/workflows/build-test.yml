@@ -12,9 +12,6 @@ on:
       bc-devtools-sources:
         description: "BC DevTools sources"
         value: ${{ jobs.setup.outputs.bc-devtools-sources }}
-      tfm-netstandard21-version-lowest:
-        description: "Target framework netstandard2.1 lowest version"
-        value: ${{ jobs.setup.outputs.tfm-netstandard21-version-lowest }}
       tfm-net80-version-lowest:
         description: "Target framework net8.0 lowest version"
         value: ${{ jobs.setup.outputs.tfm-net80-version-lowest }}
@@ -67,7 +64,6 @@ jobs:
 
     outputs:
       bc-devtools-sources: ${{ steps.get-bc-devtools.outputs.sources }}
-      tfm-netstandard21-version-lowest: ${{ steps.get-bc-devtools.outputs.tfm-netstandard21-version-lowest }}
       tfm-net80-version-lowest: ${{ steps.get-bc-devtools.outputs.tfm-net80-version-lowest }}
       matrix: ${{ steps.setup-test-matrix.outputs.matrix }}
 
@@ -83,13 +79,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
-
-      - name: Setup BC DevTools (v${{ needs.setup.outputs.tfm-netstandard21-version-lowest }})
-        uses: ./.github/actions/setup-bc-devtools
-        with:
-          sources: ${{ needs.setup.outputs.bc-devtools-sources }}
-          version-number: ${{ needs.setup.outputs.tfm-netstandard21-version-lowest }}
-          target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/netstandard2.1
 
       - name: Setup BC DevTools (v${{ needs.setup.outputs.tfm-net80-version-lowest }})
         uses: ./.github/actions/setup-bc-devtools

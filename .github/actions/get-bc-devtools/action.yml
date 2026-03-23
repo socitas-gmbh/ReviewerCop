@@ -11,9 +11,6 @@ outputs:
   sources:
     description: Stringified JSON object of sources for the Microsoft Dynamics Business Central Development Tools
     value: ${{ steps.get-bc-devtools.outputs.sources }}
-  tfm-netstandard21-version-lowest:
-    description: Lowest AL Language version (netstandard2.0 assembly) compatible with ALCops netstandard2.1 builds
-    value: ${{ steps.get-bc-devtools.outputs.tfm_netstandard21_version_lowest }}
   tfm-net80-version-lowest:
     description: Lowest AL version for net8.0
     value: ${{ steps.get-bc-devtools.outputs.tfm_net80_version_lowest }}
@@ -39,15 +36,10 @@ runs:
             ForEach-Object {
                 $_.Group | Sort-Object { if ($typePriority.ContainsKey($_.packageType)) { $typePriority[$_.packageType] } else { 99 } } | Select-Object -First 1
             } |
+          Where-Object { ([version]$_.version).Major -ge 16 } |
             Sort-Object { [version]$_.version } -Descending
 
         # Lowest source per TFM
-        # AL Language ships as netstandard2.0; ALCops consumes these from a netstandard2.1 build target
-        $ns21 = $sources | Where-Object { $_.tfm -eq 'netstandard2.0' -and $_.version } |
-                  Sort-Object { [version]($_.version) } |
-                  Select-Object -First 1 -ExpandProperty version
-        Write-Host "Lowest netstandard2.0 (AL Language) version for netstandard2.1 (ALCops) builds: $ns21"
-
         $net80 = $sources | Where-Object { $_.tfm -eq 'net8.0' -and $_.version } |
                   Sort-Object { [version]($_.version) } |
                   Select-Object -First 1 -ExpandProperty version
@@ -56,7 +48,6 @@ runs:
         # Emit outputs
         $jsonCompressed = $sources | ConvertTo-Json -Compress
         echo "sources=$jsonCompressed" >> $env:GITHUB_OUTPUT
-        echo "tfm_netstandard21_version_lowest=$ns21" >> $env:GITHUB_OUTPUT
         echo "tfm_net80_version_lowest=$net80" >> $env:GITHUB_OUTPUT
 
     - name: Display sources

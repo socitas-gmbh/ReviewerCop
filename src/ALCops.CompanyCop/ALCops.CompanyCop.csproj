@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
         <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">net8.0</TargetFrameworks>
-        <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.1;net8.0</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>Latest</LangVersion>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -52,16 +52,9 @@
         </Reference>
     </ItemGroup>
 
-    <!-- Legacy support for netstandard2.1 -->
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-        <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
-    </ItemGroup>
-
-    <!-- Package DLLs for both TFMs -->
+    <!-- Package DLLs -->
     <ItemGroup>
-        <None Include="$(OutputPath)netstandard2.1/ALCops.Common.dll" Pack="true" PackagePath="lib/netstandard2.1" Visible="false" />
         <None Include="$(OutputPath)net8.0/ALCops.Common.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
-        <None Include="$(OutputPath)netstandard2.1/ALCops.CompanyCop.dll" Pack="true" PackagePath="lib/netstandard2.1" Visible="false" />
         <None Include="$(OutputPath)net8.0/ALCops.CompanyCop.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
     </ItemGroup>
 </Project>

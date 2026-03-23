@@ -77,9 +77,4 @@ public static class SymbolInterfaceExtensions
         return false;
     }
     #endregion
-
-#if NETSTANDARD2_1
-    public static string ToDisplayStringWithReflection(this ISymbol symbol) =>
-        SymbolHelper.ToDisplayStringWithReflection(symbol);
-#endif
 }

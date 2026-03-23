@@ -36,6 +36,9 @@ runs:
             } |
             Sort-Object { [version]$_.version } -Descending
 
+        # Only test supported Business Central versions.
+        $deduped = $deduped | Where-Object { ([version]$_.version).Major -ge 16 }
+
         # Remove specific unwanted versions
         $unwantedVersions = @('16.0.21.41228', '16.0.21.42129', '16.0.21.53261', '16.0.21.57573')
         $deduped = $deduped | Where-Object { $unwantedVersions -notcontains $_.version }

@@ -55,13 +55,6 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Setup BC DevTools (v${{ needs.build-and-test.outputs.tfm-netstandard21-version-lowest }})
-        uses: ./.github/actions/setup-bc-devtools
-        with:
-          sources: ${{ needs.build-and-test.outputs.bc-devtools-sources }}
-          version-number: ${{ needs.build-and-test.outputs.tfm-netstandard21-version-lowest }}
-          target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/netstandard2.1
-
       - name: Setup BC DevTools (v${{ needs.build-and-test.outputs.tfm-net80-version-lowest }})
         uses: ./.github/actions/setup-bc-devtools
         with:
