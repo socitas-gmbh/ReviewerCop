@@ -174,4 +174,24 @@
   <data name="LabelCommentForPlaceholdersDescription" xml:space="preserve">
     <value>Labels that use placeholders (%1, %2, #1, #2, etc.) must declare a Comment property that explains what each placeholder will be replaced with. This is required for correct XLIFF translations and code readability.</value>
   </data>
+
+  <!-- CC0011: CaptionTooltipOnPage -->
+  <data name="CaptionTooltipOnPageTitle" xml:space="preserve">
+    <value>Caption and ToolTip should be defined on the table field, not on the page field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMessageFormat" xml:space="preserve">
+    <value>'{0}' is set on the page field but the table field does not have it. Move '{0}' to the table field so it is shared across all pages.</value>
+  </data>
+  <data name="CaptionTooltipOnPageDescription" xml:space="preserve">
+    <value>Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place.</value>
+  </data>
+  <data name="CaptionTooltipOnPageRemoveCodeAction" xml:space="preserve">
+    <value>ALCops: Remove '{0}' from page field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMoveCodeAction" xml:space="preserve">
+    <value>ALCops: Move '{0}' to table field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMoveExtCodeAction" xml:space="preserve">
+    <value>ALCops: Move '{0}' to table extension</value>
+  </data>
 </root>

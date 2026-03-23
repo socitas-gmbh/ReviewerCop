@@ -11,4 +11,5 @@ public static class DiagnosticIds
     public static readonly string NoModifyInOnValidate = "CC0008";
     public static readonly string DataClassificationOnTable = "CC0009";
     public static readonly string LabelCommentForPlaceholders = "CC0010";
+    public static readonly string CaptionTooltipOnPage = "CC0011";
 }

@@ -95,6 +95,16 @@ public static class DiagnosticDescriptors
         description: CompanyCopAnalyzers.LabelCommentForPlaceholdersDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.LabelCommentForPlaceholders));
 
+    public static readonly DiagnosticDescriptor CaptionTooltipOnPage = new(
+        id: DiagnosticIds.CaptionTooltipOnPage,
+        title: CompanyCopAnalyzers.CaptionTooltipOnPageTitle,
+        messageFormat: CompanyCopAnalyzers.CaptionTooltipOnPageMessageFormat,
+        category: Category.Design,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: CompanyCopAnalyzers.CaptionTooltipOnPageDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.CaptionTooltipOnPage));
+
     public static string GetHelpUri(string identifier)
     {
         return string.Format(CultureInfo.InvariantCulture, "https://company.internal/docs/analyzers/companycop/{0}/", identifier.ToLower());

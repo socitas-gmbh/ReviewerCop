@@ -58,6 +58,60 @@ namespace ALCops.CompanyCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place..
+        /// </summary>
+        internal static string CaptionTooltipOnPageDescription {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is set on the page field but the table field does not have it. Move &apos;{0}&apos; to the table field so it is shared across all pages..
+        /// </summary>
+        internal static string CaptionTooltipOnPageMessageFormat {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ALCops: Move &apos;{0}&apos; to table field.
+        /// </summary>
+        internal static string CaptionTooltipOnPageMoveCodeAction {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageMoveCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ALCops: Move &apos;{0}&apos; to table extension.
+        /// </summary>
+        internal static string CaptionTooltipOnPageMoveExtCodeAction {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageMoveExtCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ALCops: Remove &apos;{0}&apos; from page field.
+        /// </summary>
+        internal static string CaptionTooltipOnPageRemoveCodeAction {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageRemoveCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caption and ToolTip should be defined on the table field, not on the page field.
+        /// </summary>
+        internal static string CaptionTooltipOnPageTitle {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ALCops: Remove redundant DataClassification from field.
         /// </summary>
         internal static string DataClassificationOnTableCodeAction {
