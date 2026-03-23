@@ -23,6 +23,7 @@ namespace ALCops.CompanyCop.Test
         [Test]
         [TestCase("FindSetWithoutSetLoadFields")]
         [TestCase("FindFirstWithoutSetLoadFields")]
+        [TestCase("CompilerCanary_FindFirstWithoutSetLoadFields")]
         public async Task HasDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))

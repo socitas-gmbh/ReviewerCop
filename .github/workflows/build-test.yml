@@ -94,6 +94,12 @@ jobs:
       - name: Build ALCops.Common
         run: dotnet build ./src/ALCops.Common/ALCops.Common.csproj --configuration Release --no-restore
 
+      - name: Upload ALCops.Common artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ALCops.Common
+          path: ./src/ALCops.Common/bin/Release/
+
       # ALCops.CompanyCop
       - name: Restore ALCops.CompanyCop
         run: dotnet restore ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj
@@ -132,6 +138,12 @@ jobs:
           target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/net8.0
 
       # ALCops.CompanyCop
+      - name: Download ALCops.Common binaries
+        uses: actions/download-artifact@v8
+        with:
+          name: ALCops.Common
+          path: ./src/ALCops.Common/bin/Release/
+
       - name: Download ALCops.CompanyCop binaries
         uses: actions/download-artifact@v8
         with:

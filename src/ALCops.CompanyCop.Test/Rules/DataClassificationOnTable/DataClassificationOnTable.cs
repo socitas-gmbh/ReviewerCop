@@ -22,6 +22,7 @@ namespace ALCops.CompanyCop.Test
 
         [Test]
         [TestCase("FieldWithRedundantDataClassification")]
+        [TestCase("CompilerCanary_FieldWithRedundantDataClassification")]
         public async Task HasDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))

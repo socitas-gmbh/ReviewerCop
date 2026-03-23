@@ -23,6 +23,7 @@ namespace ALCops.CompanyCop.Test
         [Test]
         [TestCase("ModifyInOnValidate")]
         [TestCase("ModifyTrueInOnValidate")]
+        [TestCase("CompilerCanary_ModifyInOnValidate")]
         public async Task HasDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
