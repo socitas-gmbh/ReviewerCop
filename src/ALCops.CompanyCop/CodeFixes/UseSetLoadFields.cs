@@ -120,14 +120,17 @@ public sealed class UseSetLoadFieldsFixProvider : CodeFixProvider
     {
         var current = node;
         while (current is not null &&
-               current.Kind != SyntaxKind.TriggerDeclaration &&
-               current.Kind != SyntaxKind.MethodDeclaration)
+               !IsSyntaxKind(current, "TriggerDeclaration") &&
+               !IsSyntaxKind(current, "MethodDeclaration"))
         {
             current = current.Parent;
         }
 
         return current;
     }
+
+    private static bool IsSyntaxKind(SyntaxNode node, string expectedKindName) =>
+        string.Equals(node.Kind.ToString(), expectedKindName, StringComparison.OrdinalIgnoreCase);
 
     private static bool TryGetFindReceiverName(InvocationExpressionSyntax invocation, out string? receiverName)
     {
