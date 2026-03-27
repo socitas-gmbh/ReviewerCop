@@ -87,31 +87,31 @@ jobs:
           version-number: ${{ needs.setup.outputs.tfm-net80-version-lowest }}
           target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/net8.0
 
-      # ALCops.Common
-      - name: Restore ALCops.Common
-        run: dotnet restore ./src/ALCops.Common/ALCops.Common.csproj
+      # Socitas.ReviewerCop.Common
+      - name: Restore Socitas.ReviewerCop.Common
+        run: dotnet restore ./src/Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj
 
-      - name: Build ALCops.Common
-        run: dotnet build ./src/ALCops.Common/ALCops.Common.csproj --configuration Release --no-restore
+      - name: Build Socitas.ReviewerCop.Common
+        run: dotnet build ./src/Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj --configuration Release --no-restore
 
-      - name: Upload ALCops.Common artifacts
+      - name: Upload Socitas.ReviewerCop.Common artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: ALCops.Common
-          path: ./src/ALCops.Common/bin/Release/
+          name: Socitas.ReviewerCop.Common
+          path: ./src/Socitas.ReviewerCop.Common/bin/Release/
 
-      # ALCops.CompanyCop
-      - name: Restore ALCops.CompanyCop
-        run: dotnet restore ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj
+      # Socitas.ReviewerCop
+      - name: Restore Socitas.ReviewerCop
+        run: dotnet restore ./src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj
 
-      - name: Build ALCops.CompanyCop
-        run: dotnet build ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj --configuration Release --no-restore
+      - name: Build Socitas.ReviewerCop
+        run: dotnet build ./src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj --configuration Release --no-restore
 
-      - name: Upload ALCops.CompanyCop artifacts
+      - name: Upload Socitas.ReviewerCop artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: ALCops.CompanyCop
-          path: ./src/ALCops.CompanyCop/bin/Release/
+          name: Socitas.ReviewerCop
+          path: ./src/Socitas.ReviewerCop/bin/Release/
 
   test:
     if: ${{ !inputs.draft-check || github.event.pull_request.draft == false }}
@@ -137,31 +137,31 @@ jobs:
           version-number: ${{ matrix.version }}
           target-path: Microsoft.Dynamics.BusinessCentral.Development.Tools/net8.0
 
-      # ALCops.CompanyCop
-      - name: Download ALCops.Common binaries
+      # Socitas.ReviewerCop
+      - name: Download Socitas.ReviewerCop.Common binaries
         uses: actions/download-artifact@v8
         with:
-          name: ALCops.Common
-          path: ./src/ALCops.Common/bin/Release/
+          name: Socitas.ReviewerCop.Common
+          path: ./src/Socitas.ReviewerCop.Common/bin/Release/
 
-      - name: Download ALCops.CompanyCop binaries
+      - name: Download Socitas.ReviewerCop binaries
         uses: actions/download-artifact@v8
         with:
-          name: ALCops.CompanyCop
-          path: ./src/ALCops.CompanyCop/bin/Release/
+          name: Socitas.ReviewerCop
+          path: ./src/Socitas.ReviewerCop/bin/Release/
 
-      - name: Restore ALCops.CompanyCop.Test
-        run: dotnet restore ./src/ALCops.CompanyCop.Test/ALCops.CompanyCop.Test.csproj /p:NavTargetFramework=${{ matrix.tfm }}
+      - name: Restore Socitas.ReviewerCop.Test
+        run: dotnet restore ./src/Socitas.ReviewerCop.Test/Socitas.ReviewerCop.Test.csproj /p:NavTargetFramework=${{ matrix.tfm }}
 
-      - name: Run ALCops.CompanyCop.Test
+      - name: Run Socitas.ReviewerCop.Test
         run: >
-          dotnet test ./src/ALCops.CompanyCop.Test/ALCops.CompanyCop.Test.csproj
+          dotnet test ./src/Socitas.ReviewerCop.Test/Socitas.ReviewerCop.Test.csproj
           -p:NavTargetFramework=${{ matrix.tfm }}
           --no-restore
           --configuration Release
           --results-directory ./TestResults
           --logger "console;verbosity=normal"
-          --logger "trx;LogFileName=CompanyCop_AL_${{ matrix.version }}.trx"
+          --logger "trx;LogFileName=ReviewerCop_AL_${{ matrix.version }}.trx"
 
       - name: Install dotnet-trx-merge
         if: always()
@@ -204,7 +204,7 @@ jobs:
         uses: dorny/test-reporter@v2
         with:
           name: Test results
-          report-title: 'ALCops CompanyCop Test Results'
+          report-title: 'Socitas ReviewerCop Test Results'
           path: "**/*.trx"
           reporter: dotnet-trx
           use-actions-summary: 'false'

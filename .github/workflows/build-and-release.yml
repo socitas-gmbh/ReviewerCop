@@ -75,7 +75,7 @@ jobs:
       # Pack and publish
       - name: Pack
         run: >
-          dotnet pack ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj
+          dotnet pack ./src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj
           --configuration Release
           --output ./artifacts
           /p:ContinuousIntegrationBuild=true
