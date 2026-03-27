@@ -6,7 +6,7 @@ A Roslyn-based code analyzer for [AL](https://learn.microsoft.com/en-us/dynamics
 
 ## Overview
 
-ReviewerCop is distributed as the `ALCops.CompanyCop` NuGet package. It hooks into the AL compiler via the BC Development Tools SDK and reports diagnostics directly in your editor and CI pipeline.
+ReviewerCop is distributed as the `Socitas.ReviewerCop` NuGet package. It hooks into the AL compiler via the BC Development Tools SDK and reports diagnostics directly in your editor and CI pipeline.
 
 This project is based on and inspired by [ALCops/Analyzers](https://github.com/ALCops/Analyzers), used under the MIT License.
 
@@ -35,7 +35,7 @@ dotnet build
 To build the NuGet package:
 
 ```bash
-dotnet pack ./src/ALCops.CompanyCop/ALCops.CompanyCop.csproj --configuration Release /p:ContinuousIntegrationBuild=true
+dotnet pack ./src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj --configuration Release /p:ContinuousIntegrationBuild=true
 ```
 
 ## Testing

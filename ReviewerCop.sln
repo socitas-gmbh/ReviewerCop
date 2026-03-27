@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A13B89A5-2680-40ED-AFF3-C9C7894136D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALCops.Common", "src\ALCops.Common\ALCops.Common.csproj", "{6134DB3D-F8BD-4E93-AF16-FF79689C4E88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.ReviewerCop.Common", "src\Socitas.ReviewerCop.Common\Socitas.ReviewerCop.Common.csproj", "{6134DB3D-F8BD-4E93-AF16-FF79689C4E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALCops.CompanyCop", "src\ALCops.CompanyCop\ALCops.CompanyCop.csproj", "{C6B6AF1C-0334-4182-8263-CEB416BA84D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.ReviewerCop", "src\Socitas.ReviewerCop\Socitas.ReviewerCop.csproj", "{C6B6AF1C-0334-4182-8263-CEB416BA84D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALCops.CompanyCop.Test", "src\ALCops.CompanyCop.Test\ALCops.CompanyCop.Test.csproj", "{C405D8F2-1721-490D-92BD-8BF4EA0C135B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.ReviewerCop.Test", "src\Socitas.ReviewerCop.Test\Socitas.ReviewerCop.Test.csproj", "{C405D8F2-1721-490D-92BD-8BF4EA0C135B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
