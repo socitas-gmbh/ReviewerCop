@@ -147,7 +147,9 @@ public sealed class CaptionTooltipOnPage : DiagnosticAnalyzer
             return IsContainingTableInternal(relatedField);
         }
 
-        return FieldNodeHasProperty(tableFieldNode, propertyName);
+        // Whether or not the table field has the property, the page field should not have it.
+        // If the table already has it, the page copy is redundant; if not, it should be moved there.
+        return false;
     }
 
     /// <summary>
@@ -171,7 +173,8 @@ public sealed class CaptionTooltipOnPage : DiagnosticAnalyzer
         if (tableFieldNode is null)
             return false; // field is from an external package; report so the user can move to a table extension
 
-        return FieldNodeHasProperty(tableFieldNode, propertyName);
+        // Whether or not the table field has the property, the page field should not have it.
+        return false;
     }
 
     /// <summary>
