@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/hoch/**)",
+      "Bash(grep -r \"class NavCodeAnalysisBase\\\\|namespace NavCodeAnalysisBase\" /home/hoch --include=*.cs)"
+    ]
+  }
+}

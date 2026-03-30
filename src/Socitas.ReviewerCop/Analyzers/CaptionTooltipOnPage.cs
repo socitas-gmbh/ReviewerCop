@@ -94,6 +94,11 @@ public sealed class CaptionTooltipOnPage : DiagnosticAnalyzer
                     parent.Kind == EnumProvider.SyntaxKind.PageExtensionObject)
                     return null;
 
+                // Skip non-field page controls: groups, actions, areas, parts, views, etc.
+                // Caption/ToolTip on these are not backed by a table field, so CC0011 does not apply.
+                if (IsNonFieldPageControl(parent.Kind))
+                    return null;
+
                 return parent;
             }
 
@@ -134,7 +139,13 @@ public sealed class CaptionTooltipOnPage : DiagnosticAnalyzer
             relatedField, ctx.SemanticModel.Compilation, ctx.CancellationToken);
 
         if (tableFieldNode is null)
-            return false; // field is from an external package; report so the user can move to a table extension
+        {
+            // Field is from an external package (no source in this compilation).
+            // Only report if the containing table can actually be extended (i.e. it is Public).
+            // If the table has Internal (or Local) access, creating a table extension is not
+            // possible → suppress the diagnostic.
+            return IsContainingTableInternal(relatedField);
+        }
 
         return FieldNodeHasProperty(tableFieldNode, propertyName);
     }
@@ -429,6 +440,66 @@ public sealed class CaptionTooltipOnPage : DiagnosticAnalyzer
             i++;
         }
         return null;
+    }
+
+    // ── Non-field page control filter ─────────────────────────────────────────
+
+    /// <summary>
+    /// Returns true for page control kinds that never have an underlying table field
+    /// (groups, actions, areas, parts, views, …). CC0011 does not apply to these.
+    /// </summary>
+    private static bool IsNonFieldPageControl(SyntaxKind kind) =>
+        kind == EnumProvider.SyntaxKind.PageGroup ||
+        kind == EnumProvider.SyntaxKind.PageAction ||
+        kind == EnumProvider.SyntaxKind.PageActionGroup ||
+        kind == EnumProvider.SyntaxKind.PageActionArea ||
+        kind == EnumProvider.SyntaxKind.PageActionSeparator ||
+        kind == EnumProvider.SyntaxKind.PageArea ||
+        kind == EnumProvider.SyntaxKind.PageCustomAction ||
+        kind == EnumProvider.SyntaxKind.PageSystemAction ||
+        kind == EnumProvider.SyntaxKind.PageSystemPart ||
+        kind == EnumProvider.SyntaxKind.PagePart ||
+        kind == EnumProvider.SyntaxKind.PageView;
+
+    // ── Internal table check ──────────────────────────────────────────────────
+
+    /// <summary>
+    /// Returns true when the table that contains the given field has Internal (or more restrictive)
+    /// declared accessibility, meaning a table extension cannot be created for it in a downstream app.
+    /// In that case CC0011 should be suppressed: there is nowhere to move the property.
+    /// </summary>
+    private static bool IsContainingTableInternal(IFieldSymbol fieldSymbol)
+    {
+        try
+        {
+            var fieldType = fieldSymbol.GetType();
+            foreach (var propName in _containingPropNames)
+            {
+                var prop = fieldType.GetProperty(propName, BindingFlags.Public | BindingFlags.Instance);
+                if (prop is null)
+                    continue;
+
+                var containing = prop.GetValue(fieldSymbol);
+                if (containing is null)
+                    continue;
+
+                var accessProp = GetPublicPropertyFromTypeOrInterfaces(containing, "DeclaredAccessibility");
+                if (accessProp is null)
+                    continue;
+
+                var accessValue = accessProp.GetValue(containing);
+                if (accessValue is null)
+                    continue;
+
+                // In BC's symbol model the type is NavCodeAnalysis.Symbols.Accessibility.
+                // Internal (or Local) means the table cannot be extended from outside the app.
+                return Equals(accessValue, EnumProvider.Accessibility.Internal) ||
+                       Equals(accessValue, EnumProvider.Accessibility.Local);
+            }
+
+            return false;
+        }
+        catch { return false; }
     }
 
     private static string StripQuotes(string name) =>

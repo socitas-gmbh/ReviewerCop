@@ -57,4 +57,17 @@
         <None Include="$(OutputPath)net8.0/Socitas.ReviewerCop.Common.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
         <None Include="$(OutputPath)net8.0/Socitas.ReviewerCop.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <!-- Merge Socitas.ReviewerCop.Common into the main analyzer DLL so that
+         alc.exe (which loads analyzers in an isolated AssemblyLoadContext) can
+         find all types without needing extra probing paths. -->
+    <!-- Disable the default ILRepack target from the NuGet package by providing
+         a custom ILRepack.targets file (see ILRepack.targets in this directory). -->
+
 </Project>

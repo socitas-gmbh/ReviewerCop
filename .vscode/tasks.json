@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build & Deploy Analyzers",
+      "detail": "Build Socitas.ReviewerCop and copy DLLs to the AL extension's analyzer folder",
+      "type": "shell",
+      "command": "dotnet build src/Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj --configuration Release --no-restore && dotnet build src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj --configuration Release --no-restore && AL_EXT=$(ls -d ~/.vscode-server/extensions/ms-dynamics-smb.al-*/bin/Analyzers 2>/dev/null | sort -V | tail -1) && cp src/Socitas.ReviewerCop.Common/bin/Release/net8.0/Socitas.ReviewerCop.Common.dll src/Socitas.ReviewerCop/bin/Release/net8.0/Socitas.ReviewerCop.dll \"$AL_EXT/\" && echo \"Deployed to $AL_EXT\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Restore",
+      "detail": "Restore NuGet packages for the solution",
+      "type": "shell",
+      "command": "dotnet restore ReviewerCop.sln",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build & Deploy Analyzers (with restore)",
+      "detail": "Restore, build and deploy in one step",
+      "type": "shell",
+      "dependsOn": "Restore",
+      "command": "",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": "$msCompile",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Restore", "Build & Deploy Analyzers"]
+    }
+  ]
+}

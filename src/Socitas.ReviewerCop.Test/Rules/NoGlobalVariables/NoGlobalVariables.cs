@@ -21,6 +21,8 @@ namespace Socitas.ReviewerCop.Test
         [Test]
         [TestCase("CodeunitWithGlobalVar")]
         [TestCase("PageWithGlobalVar")]
+        [TestCase("PageWithUnusedGlobalVar")]
+        [TestCase("ReportWithUnusedGlobalVar")]
         public async Task HasDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
@@ -34,6 +36,11 @@ namespace Socitas.ReviewerCop.Test
         [TestCase("CodeunitWithLocalVar")]
         [TestCase("TableExtensionWithImplicitVars")]
         [TestCase("PageWithImplicitVars")]
+        [TestCase("PageWithFieldSourceVars")]
+        [TestCase("ReportWithColumnSourceVars")]
+        [TestCase("ReportWithImplicitVars")]
+        [TestCase("SingleInstanceCodeunit")]
+        [TestCase("PageExtWithPropertyValueVars")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))

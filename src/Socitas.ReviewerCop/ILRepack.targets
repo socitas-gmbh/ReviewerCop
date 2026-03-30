@@ -1,0 +1,15 @@
+<Project>
+    <Target Name="ILRepack" AfterTargets="Build" Condition="'$(TargetFramework)' != ''">
+        <ItemGroup>
+            <ILRepackInput Include="$(OutputPath)$(TargetName)$(TargetExt)" />
+            <ILRepackInput Include="$(OutputPath)Socitas.ReviewerCop.Common.dll" />
+        </ItemGroup>
+        <ILRepack
+            Parallel="true"
+            DebugInfo="true"
+            InputAssemblies="@(ILRepackInput)"
+            TargetKind="SameAsPrimaryAssembly"
+            LibraryPath="$(BcDevToolsDir)/$(TargetFramework)"
+            OutputFile="$(OutputPath)$(TargetName)$(TargetExt)" />
+    </Target>
+</Project>

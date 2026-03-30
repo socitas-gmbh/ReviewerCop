@@ -27,7 +27,7 @@ public sealed class DataClassificationOnTable : DiagnosticAnalyzer
         var root = ctx.Tree.GetRoot(ctx.CancellationToken);
         foreach (var tableNode in root.DescendantNodes().Where(n => IsSyntaxKind(n, "TableObject")))
         {
-            bool hasTableLevelDataClassification = false;
+            string? tableLevelValue = null;
             var fieldLevelTokens = new List<SyntaxToken>();
 
             foreach (var token in tableNode.DescendantTokens())
@@ -46,14 +46,23 @@ public sealed class DataClassificationOnTable : DiagnosticAnalyzer
                 if (IsInsideFieldNode(token))
                     fieldLevelTokens.Add(token);
                 else
-                    hasTableLevelDataClassification = true;
+                    tableLevelValue = next.GetNextToken().ValueText;
             }
 
-            if (!hasTableLevelDataClassification || fieldLevelTokens.Count == 0)
+            if (tableLevelValue is null || fieldLevelTokens.Count == 0)
                 continue;
 
             foreach (var token in fieldLevelTokens)
             {
+                // Re-derive the value: DataClassification = <value>
+                var eqToken = token.GetNextToken();    // '='
+                var fieldValue = eqToken.GetNextToken().ValueText;
+
+                // Only report when the field-level value is identical to the table-level value.
+                // A different value is an intentional override and is allowed.
+                if (!string.Equals(fieldValue, tableLevelValue, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
                 ctx.ReportDiagnostic(Diagnostic.Create(
                     DiagnosticDescriptors.DataClassificationOnTable,
                     token.GetLocation()));

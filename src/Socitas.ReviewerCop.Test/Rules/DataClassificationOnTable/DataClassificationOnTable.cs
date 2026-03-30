@@ -34,6 +34,7 @@ namespace Socitas.ReviewerCop.Test
         [Test]
         [TestCase("TableLevelOnly")]
         [TestCase("FieldLevelWithoutTableLevel")]
+        [TestCase("FieldWithDifferentDataClassification")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
