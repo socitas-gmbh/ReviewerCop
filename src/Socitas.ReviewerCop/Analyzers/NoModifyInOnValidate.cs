@@ -43,9 +43,36 @@ public sealed class NoModifyInOnValidate : DiagnosticAnalyzer
         if (!IsInsideOnValidateTrigger(invocation.Syntax))
             return;
 
+        // Only flag Modify() on the current record (Rec).
+        // If the receiver is a different variable it is modifying another table, which is fine.
+        if (!IsCalledOnRec(invocation))
+            return;
+
         ctx.ReportDiagnostic(Diagnostic.Create(
             DiagnosticDescriptors.NoModifyInOnValidate,
             invocation.Syntax.GetLocation()));
+    }
+
+    /// <summary>
+    /// Returns true when Modify() is called on Rec — either implicitly (no receiver)
+    /// or explicitly (Rec.Modify()).
+    /// </summary>
+    private static bool IsCalledOnRec(IInvocationExpression invocation)
+    {
+        // No receiver → implicit Rec call
+        if (invocation.Instance is null)
+            return true;
+
+        // Explicit receiver — check if it's "Rec" or "this" (both refer to the current record)
+        if (invocation.Instance.Syntax is IdentifierNameSyntax identifier)
+        {
+            var name = identifier.Identifier.ValueText;
+            return string.Equals(name, "Rec", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(name, "this", StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Unknown receiver shape → be conservative and skip
+        return false;
     }
 
     private static bool IsInsideOnValidateTrigger(SyntaxNode? node)

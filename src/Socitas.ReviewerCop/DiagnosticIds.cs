@@ -12,4 +12,8 @@ public static class DiagnosticIds
     public static readonly string DataClassificationOnTable = "CC0009";
     public static readonly string LabelCommentForPlaceholders = "CC0010";
     public static readonly string CaptionTooltipOnPage = "CC0011";
+    public static readonly string OpenBraceOnSameLine = "CC0012";
+    public static readonly string UseRestClient = "CC0013";
+    public static readonly string InitializeRestClientWithHandler = "CC0014";
+    public static readonly string NoExitWithDefaultValue = "CC0015";
 }

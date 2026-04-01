@@ -105,6 +105,46 @@ public static class DiagnosticDescriptors
         description: ReviewerCopAnalyzers.CaptionTooltipOnPageDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.CaptionTooltipOnPage));
 
+    public static readonly DiagnosticDescriptor OpenBraceOnSameLine = new(
+        id: DiagnosticIds.OpenBraceOnSameLine,
+        title: ReviewerCopAnalyzers.OpenBraceOnSameLineTitle,
+        messageFormat: ReviewerCopAnalyzers.OpenBraceOnSameLineMessageFormat,
+        category: Category.Style,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: ReviewerCopAnalyzers.OpenBraceOnSameLineDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.OpenBraceOnSameLine));
+
+    public static readonly DiagnosticDescriptor UseRestClient = new(
+        id: DiagnosticIds.UseRestClient,
+        title: ReviewerCopAnalyzers.UseRestClientTitle,
+        messageFormat: ReviewerCopAnalyzers.UseRestClientMessageFormat,
+        category: Category.Design,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: ReviewerCopAnalyzers.UseRestClientDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.UseRestClient));
+
+    public static readonly DiagnosticDescriptor InitializeRestClientWithHandler = new(
+        id: DiagnosticIds.InitializeRestClientWithHandler,
+        title: ReviewerCopAnalyzers.InitializeRestClientWithHandlerTitle,
+        messageFormat: ReviewerCopAnalyzers.InitializeRestClientWithHandlerMessageFormat,
+        category: Category.Design,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: ReviewerCopAnalyzers.InitializeRestClientWithHandlerDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.InitializeRestClientWithHandler));
+
+    public static readonly DiagnosticDescriptor NoExitWithDefaultValue = new(
+        id: DiagnosticIds.NoExitWithDefaultValue,
+        title: ReviewerCopAnalyzers.NoExitWithDefaultValueTitle,
+        messageFormat: ReviewerCopAnalyzers.NoExitWithDefaultValueMessageFormat,
+        category: Category.Style,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: ReviewerCopAnalyzers.NoExitWithDefaultValueDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.NoExitWithDefaultValue));
+
     public static string GetHelpUri(string identifier)
     {
         return string.Format(CultureInfo.InvariantCulture, "https://company.internal/docs/analyzers/companycop/{0}/", identifier.ToLower());

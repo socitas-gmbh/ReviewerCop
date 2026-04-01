@@ -194,4 +194,49 @@
   <data name="CaptionTooltipOnPageMoveExtCodeAction" xml:space="preserve">
     <value>ALCops: Move '{0}' to table extension</value>
   </data>
+  <!-- CC0012: OpenBraceOnSameLine -->
+  <data name="OpenBraceOnSameLineTitle" xml:space="preserve">
+    <value>Opening brace must be on the same line as the declaration</value>
+  </data>
+  <data name="OpenBraceOnSameLineMessageFormat" xml:space="preserve">
+    <value>Opening brace '{{' must be on the same line as the declaration, not on a new line.</value>
+  </data>
+  <data name="OpenBraceOnSameLineDescription" xml:space="preserve">
+    <value>The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability.</value>
+  </data>
+  <data name="OpenBraceOnSameLineCodeAction" xml:space="preserve">
+    <value>ALCops: Move opening brace to same line</value>
+  </data>
+
+  <!-- CC0013: UseRestClient -->
+  <data name="UseRestClientTitle" xml:space="preserve">
+    <value>Use the "Rest Client" codeunit instead of raw HTTP types</value>
+  </data>
+  <data name="UseRestClientMessageFormat" xml:space="preserve">
+    <value>Variable of type '{0}' detected. Use the "Rest Client" codeunit instead of raw HTTP types for simpler, more maintainable HTTP communication.</value>
+  </data>
+  <data name="UseRestClientDescription" xml:space="preserve">
+    <value>The "Rest Client" codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate.</value>
+  </data>
+
+  <!-- CC0014: InitializeRestClientWithHandler -->
+  <data name="InitializeRestClientWithHandlerTitle" xml:space="preserve">
+    <value>Rest Client must be initialized with a handler codeunit from the current app</value>
+  </data>
+  <data name="InitializeRestClientWithHandlerMessageFormat" xml:space="preserve">
+    <value>RestClient.Initialize() must pass a handler codeunit defined in the current app. Create a codeunit that implements the "Http Client Handler" interface to centralize HTTP client configuration.</value>
+  </data>
+  <data name="InitializeRestClientWithHandlerDescription" xml:space="preserve">
+    <value>The "Rest Client" codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app's requirements.</value>
+  </data>
+  <!-- CC0015: NoExitWithDefaultValue -->
+  <data name="NoExitWithDefaultValueTitle" xml:space="preserve">
+    <value>Do not use exit() with an explicit default value</value>
+  </data>
+  <data name="NoExitWithDefaultValueMessageFormat" xml:space="preserve">
+    <value>exit() is called with the default value '{0}'. Use a bare exit; instead — AL returns the type's default automatically.</value>
+  </data>
+  <data name="NoExitWithDefaultValueDescription" xml:space="preserve">
+    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability.</value>
+  </data>
 </root>

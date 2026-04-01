@@ -184,6 +184,42 @@ namespace Socitas.ReviewerCop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ALCops: Move opening brace to same line.
+        /// </summary>
+        internal static string OpenBraceOnSameLineCodeAction {
+            get {
+                return ResourceManager.GetString("OpenBraceOnSameLineCodeAction", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability..
+        /// </summary>
+        internal static string OpenBraceOnSameLineDescription {
+            get {
+                return ResourceManager.GetString("OpenBraceOnSameLineDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Opening brace &apos;{&apos; must be on the same line as the declaration, not on a new line..
+        /// </summary>
+        internal static string OpenBraceOnSameLineMessageFormat {
+            get {
+                return ResourceManager.GetString("OpenBraceOnSameLineMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Opening brace must be on the same line as the declaration.
+        /// </summary>
+        internal static string OpenBraceOnSameLineTitle {
+            get {
+                return ResourceManager.GetString("OpenBraceOnSameLineTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Labels that use placeholders (%1, %2, #1, #2, etc.) must declare a Comment property that explains what each placeholder will be replaced with. This is required for correct XLIFF translations and code readability..
         /// </summary>
         internal static string LabelCommentForPlaceholdersDescription {
@@ -396,6 +432,60 @@ namespace Socitas.ReviewerCop {
         internal static string ValidateFieldAssignmentsTitle {
             get {
                 return ResourceManager.GetString("ValidateFieldAssignmentsTitle", resourceCulture);
+            }
+        }
+
+        internal static string UseRestClientTitle {
+            get {
+                return ResourceManager.GetString("UseRestClientTitle", resourceCulture);
+            }
+        }
+
+        internal static string UseRestClientMessageFormat {
+            get {
+                return ResourceManager.GetString("UseRestClientMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string UseRestClientDescription {
+            get {
+                return ResourceManager.GetString("UseRestClientDescription", resourceCulture);
+            }
+        }
+
+        internal static string InitializeRestClientWithHandlerTitle {
+            get {
+                return ResourceManager.GetString("InitializeRestClientWithHandlerTitle", resourceCulture);
+            }
+        }
+
+        internal static string InitializeRestClientWithHandlerMessageFormat {
+            get {
+                return ResourceManager.GetString("InitializeRestClientWithHandlerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string InitializeRestClientWithHandlerDescription {
+            get {
+                return ResourceManager.GetString("InitializeRestClientWithHandlerDescription", resourceCulture);
+            }
+        }
+
+        internal static string NoExitWithDefaultValueTitle {
+            get {
+                return ResourceManager.GetString("NoExitWithDefaultValueTitle", resourceCulture);
+            }
+        }
+
+        internal static string NoExitWithDefaultValueMessageFormat {
+            get {
+                return ResourceManager.GetString("NoExitWithDefaultValueMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string NoExitWithDefaultValueDescription {
+            get {
+                return ResourceManager.GetString("NoExitWithDefaultValueDescription", resourceCulture);
             }
         }
     }
