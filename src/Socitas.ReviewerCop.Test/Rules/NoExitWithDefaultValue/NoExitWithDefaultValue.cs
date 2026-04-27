@@ -1,3 +1,4 @@
+using AICop = Socitas.AICop;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -10,7 +11,7 @@ namespace Socitas.ReviewerCop.Test
         [SetUp]
         public void Setup()
         {
-            _fixture = RoslynFixtureFactory.Create<Analyzers.NoExitWithDefaultValue>();
+            _fixture = RoslynFixtureFactory.Create<AICop.Analyzers.NoExitWithDefaultValue>();
 
             _testCasePath = Path.Combine(
                 Directory.GetParent(
@@ -27,7 +28,7 @@ namespace Socitas.ReviewerCop.Test
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.HasDiagnosticAtAllMarkers(code, DiagnosticIds.NoExitWithDefaultValue);
+            _fixture.HasDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.NoExitWithDefaultValue);
         }
 
         [Test]
@@ -40,7 +41,7 @@ namespace Socitas.ReviewerCop.Test
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.NoDiagnosticAtAllMarkers(code, DiagnosticIds.NoExitWithDefaultValue);
+            _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.NoExitWithDefaultValue);
         }
     }
 }

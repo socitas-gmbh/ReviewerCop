@@ -59,7 +59,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 
-  <!-- CC0001: NoTodoComments -->
+  <!-- RC0001: NoTodoComments -->
   <data name="NoTodoCommentsTitle" xml:space="preserve">
     <value>Do not leave TODO comments in finished code</value>
   </data>
@@ -70,18 +70,7 @@
     <value>TODO comments indicate unfinished work. All TODO comments must be resolved before a pull request is merged. Use work items or tasks to track remaining work instead.</value>
   </data>
 
-  <!-- CC0002: NoGlobalVariables -->
-  <data name="NoGlobalVariablesTitle" xml:space="preserve">
-    <value>Avoid global variables in AL objects</value>
-  </data>
-  <data name="NoGlobalVariablesMessageFormat" xml:space="preserve">
-    <value>Global variable '{0}' should be avoided. Pass variables as parameters or use local variables instead.</value>
-  </data>
-  <data name="NoGlobalVariablesDescription" xml:space="preserve">
-    <value>Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables.</value>
-  </data>
-
-  <!-- CC0003: ValidateFieldAssignments -->
+  <!-- RC0002: ValidateFieldAssignments -->
   <data name="ValidateFieldAssignmentsTitle" xml:space="preserve">
     <value>Field assignments should use Validate</value>
   </data>
@@ -92,7 +81,7 @@
     <value>Direct field assignments bypass the OnValidate trigger, which may contain important business logic. Use the Validate method to ensure all validation logic is executed when assigning field values.</value>
   </data>
 
-  <!-- CC0004: NoTypeOrPrefixInVariableName -->
+  <!-- RC0003: NoTypeOrPrefixInVariableName -->
   <data name="NoTypeOrPrefixInVariableNameTitle" xml:space="preserve">
     <value>Avoid type names and Hungarian-style prefixes in variable names</value>
   </data>
@@ -117,7 +106,7 @@
     <value>ALCops: Remove redundant DataClassification from field</value>
   </data>
 
-  <!-- CC0005: EventSubscriberNamingConvention -->
+  <!-- RC0004: EventSubscriberNamingConvention -->
   <data name="EventSubscriberNamingConventionCodeAction" xml:space="preserve">
     <value>ALCops: Rename to '{0}'</value>
   </data>
@@ -131,7 +120,7 @@
     <value>Event subscriber procedures must follow the FunctionName+EventName convention: the procedure name must end with the subscribed event name. For example, a subscriber to 'OnBeforeInsertEvent' should be named 'SetRefOrderTypeInitValueOnBeforeInsertEvent'.</value>
   </data>
 
-  <!-- CC0006: UseSetLoadFields -->
+  <!-- RC0005: UseSetLoadFields -->
   <data name="UseSetLoadFieldsTitle" xml:space="preserve">
     <value>Use SetLoadFields for performance-critical record reads</value>
   </data>
@@ -142,7 +131,7 @@
     <value>When reading records using FindSet, FindFirst, FindLast, or Find, use SetLoadFields to specify only the fields needed. This reduces the amount of data transferred from the database and improves performance, especially for wide tables.</value>
   </data>
 
-  <!-- CC0008: NoModifyInOnValidate -->
+  <!-- RC0006: NoModifyInOnValidate -->
   <data name="NoModifyInOnValidateTitle" xml:space="preserve">
     <value>Do not call Modify() inside an OnValidate trigger</value>
   </data>
@@ -153,7 +142,7 @@
     <value>Calling Modify() inside an OnValidate trigger bypasses the expected save flow and can cause double-saves, infinite trigger loops, or data-integrity issues. The code that sets the field value is responsible for calling Modify() afterwards.</value>
   </data>
 
-  <!-- CC0009: DataClassificationOnTable -->
+  <!-- RC0007: DataClassificationOnTable -->
   <data name="DataClassificationOnTableTitle" xml:space="preserve">
     <value>Set DataClassification as a table-level property, not per field</value>
   </data>
@@ -164,7 +153,7 @@
     <value>When DataClassification is set as a table property it applies to all fields automatically. Repeating the same classification on individual fields is redundant. Set DataClassification once on the table and remove per-field declarations.</value>
   </data>
 
-  <!-- CC0010: LabelCommentForPlaceholders -->
+  <!-- RC0008: LabelCommentForPlaceholders -->
   <data name="LabelCommentForPlaceholdersTitle" xml:space="preserve">
     <value>Labels with placeholders must have a Comment property</value>
   </data>
@@ -173,70 +162,5 @@
   </data>
   <data name="LabelCommentForPlaceholdersDescription" xml:space="preserve">
     <value>Labels that use placeholders (%1, %2, #1, #2, etc.) must declare a Comment property that explains what each placeholder will be replaced with. This is required for correct XLIFF translations and code readability.</value>
-  </data>
-
-  <!-- CC0011: CaptionTooltipOnPage -->
-  <data name="CaptionTooltipOnPageTitle" xml:space="preserve">
-    <value>Caption and ToolTip should be defined on the table field, not on the page field</value>
-  </data>
-  <data name="CaptionTooltipOnPageMessageFormat" xml:space="preserve">
-    <value>'{0}' should not be set on the page field. Define it on the table field instead so it is shared across all pages.</value>
-  </data>
-  <data name="CaptionTooltipOnPageDescription" xml:space="preserve">
-    <value>Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place.</value>
-  </data>
-  <data name="CaptionTooltipOnPageRemoveCodeAction" xml:space="preserve">
-    <value>ALCops: Remove '{0}' from page field</value>
-  </data>
-  <data name="CaptionTooltipOnPageMoveCodeAction" xml:space="preserve">
-    <value>ALCops: Move '{0}' to table field</value>
-  </data>
-  <data name="CaptionTooltipOnPageMoveExtCodeAction" xml:space="preserve">
-    <value>ALCops: Move '{0}' to table extension</value>
-  </data>
-  <!-- CC0012: OpenBraceOnSameLine -->
-  <data name="OpenBraceOnSameLineTitle" xml:space="preserve">
-    <value>Opening brace must be on the same line as the declaration</value>
-  </data>
-  <data name="OpenBraceOnSameLineMessageFormat" xml:space="preserve">
-    <value>Opening brace '{{' must be on the same line as the declaration, not on a new line.</value>
-  </data>
-  <data name="OpenBraceOnSameLineDescription" xml:space="preserve">
-    <value>The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability.</value>
-  </data>
-  <data name="OpenBraceOnSameLineCodeAction" xml:space="preserve">
-    <value>ALCops: Move opening brace to same line</value>
-  </data>
-
-  <!-- CC0013: UseRestClient -->
-  <data name="UseRestClientTitle" xml:space="preserve">
-    <value>Use the "Rest Client" codeunit instead of raw HTTP types</value>
-  </data>
-  <data name="UseRestClientMessageFormat" xml:space="preserve">
-    <value>Variable of type '{0}' detected. Use the "Rest Client" codeunit instead of raw HTTP types for simpler, more maintainable HTTP communication.</value>
-  </data>
-  <data name="UseRestClientDescription" xml:space="preserve">
-    <value>The "Rest Client" codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate.</value>
-  </data>
-
-  <!-- CC0014: InitializeRestClientWithHandler -->
-  <data name="InitializeRestClientWithHandlerTitle" xml:space="preserve">
-    <value>Rest Client must be initialized with a handler codeunit from the current app</value>
-  </data>
-  <data name="InitializeRestClientWithHandlerMessageFormat" xml:space="preserve">
-    <value>RestClient.Initialize() must pass a handler codeunit defined in the current app. Create a codeunit that implements the "Http Client Handler" interface to centralize HTTP client configuration.</value>
-  </data>
-  <data name="InitializeRestClientWithHandlerDescription" xml:space="preserve">
-    <value>The "Rest Client" codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app's requirements.</value>
-  </data>
-  <!-- CC0015: NoExitWithDefaultValue -->
-  <data name="NoExitWithDefaultValueTitle" xml:space="preserve">
-    <value>Do not use exit() with an explicit default value</value>
-  </data>
-  <data name="NoExitWithDefaultValueMessageFormat" xml:space="preserve">
-    <value>exit() is called with the default value '{0}'. Use a bare exit; instead — AL returns the type's default automatically.</value>
-  </data>
-  <data name="NoExitWithDefaultValueDescription" xml:space="preserve">
-    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability.</value>
   </data>
 </root>

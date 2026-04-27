@@ -11,7 +11,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Text;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Workspaces;
 
-namespace Socitas.ReviewerCop.CodeFixes;
+namespace Socitas.AICop.CodeFixes;
 
 /// <summary>
 /// CC0011 – Quick fix: remove Caption/ToolTip from the page field, or move it to the table field
@@ -88,7 +88,7 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
         // Always offer "Remove from page field"
         ctx.RegisterCodeFix(
             new RemoveAction(
-                string.Format(ReviewerCopAnalyzers.CaptionTooltipOnPageRemoveCodeAction, propertyName),
+                string.Format(AICopAnalyzers.CaptionTooltipOnPageRemoveCodeAction, propertyName),
                 ct => RemovePropertyAsync(ctx.Document, propertySyntax, ct),
                 nameof(CaptionTooltipOnPageFixProvider) + "_Remove_" + propertyName,
                 generateFixAll: true),
@@ -134,7 +134,7 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
                 var tableDocumentId = tableDocumentIds[0];
                 ctx.RegisterCodeFix(
                     new MoveToTableAction(
-                        string.Format(ReviewerCopAnalyzers.CaptionTooltipOnPageMoveCodeAction, propertyName),
+                        string.Format(AICopAnalyzers.CaptionTooltipOnPageMoveCodeAction, propertyName),
                         ct => MovePropertyToTableAsync(ctx.Document, propertySyntax, tableDocumentId, tableFieldNode, ct),
                         nameof(CaptionTooltipOnPageFixProvider) + "_Move_" + propertyName),
                     ctx.Diagnostics[0]);
@@ -150,7 +150,7 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
                 var capturedProp = propertySyntax;
                 ctx.RegisterCodeFix(
                     new MoveToTableExtensionAction(
-                        string.Format(ReviewerCopAnalyzers.CaptionTooltipOnPageMoveExtCodeAction, propertyName),
+                        string.Format(AICopAnalyzers.CaptionTooltipOnPageMoveExtCodeAction, propertyName),
                         ct => MovePropertyToTableExtensionAsync(capturedDoc, capturedProp, tableName, fieldName, ct),
                         nameof(CaptionTooltipOnPageFixProvider) + "_MoveExt_" + propertyName),
                     ctx.Diagnostics[0]);
@@ -167,7 +167,7 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
                 var capturedProp = propertySyntax;
                 ctx.RegisterCodeFix(
                     new MoveToTableExtensionAction(
-                        string.Format(ReviewerCopAnalyzers.CaptionTooltipOnPageMoveExtCodeAction, propertyName),
+                        string.Format(AICopAnalyzers.CaptionTooltipOnPageMoveExtCodeAction, propertyName),
                         ct => MovePropertyToTableExtensionAsync(capturedDoc, capturedProp, tableName, fieldName, ct),
                         nameof(CaptionTooltipOnPageFixProvider) + "_MoveExt_" + propertyName),
                     ctx.Diagnostics[0]);

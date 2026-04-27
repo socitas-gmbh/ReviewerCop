@@ -12,17 +12,22 @@ This project is based on and inspired by [ALCops/Analyzers](https://github.com/A
 
 ## Rules
 
-| ID | Title | Category | Severity |
-|----|-------|----------|----------|
-| CC0001 | No TODO Comments | Style | Warning |
-| CC0002 | No Global Variables | Style | Warning |
-| CC0003 | Validate Field Assignments | Usage | Warning |
-| CC0004 | No Type or Prefix in Variable Name | Naming | Warning |
-| CC0005 | Event Subscriber Naming Convention | Naming | Warning |
-| CC0006 | Use SetLoadFields | Performance | Info |
-| CC0008 | No Modify in OnValidate | Style | Warning |
-| CC0009 | Data Classification on Table | Design | Warning |
-| CC0010 | Label Comment for Placeholders | Style | Info |
+| ID | Title | Category | Severity | Analyzer |
+|----|-------|----------|----------|----------|
+| RC0001 | No TODO Comments | Style | Warning | Reviewer Cop |
+| RC0002 | Validate Field Assignments | Usage | Warning | Reviewer Cop |
+| RC0003 | No Type or Prefix in Variable Name | Naming | Warning | Reviewer Cop |
+| RC0004 | Event Subscriber Naming Convention | Naming | Warning | Reviewer Cop |
+| RC0005 | Use SetLoadFields | Performance | Warning | Reviewer Cop |
+| RC0006 | No Modify in OnValidate | Style | Warning | Reviewer Cop |
+| RC0007 | Data Classification on Table | Design | Warning | Reviewer Cop |
+| RC0008 | Label Comment for Placeholders | Style | Info | Reviewer Cop |
+| AI0001 | No Global Variables | Style | Warning | AI Cop |
+| AI0002 | Caption and ToolTip on Page | Design | Warning | AI Cop |
+| AI0003 | Open Brace on Same Line | Style | Warning | AI Cop |
+| AI0004 | Use Rest Client | Design | Warning | AI Cop |
+| AI0005 | Initialize Rest Client with Handler | Design | Warning | AI Cop |
+| AI0006 | No Exit with Default Value | Style | Warning | AI Cop |
 
 ## Building
 

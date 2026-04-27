@@ -1,3 +1,4 @@
+using AICop = Socitas.AICop;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -10,7 +11,7 @@ namespace Socitas.ReviewerCop.Test
         [SetUp]
         public void Setup()
         {
-            _fixture = RoslynFixtureFactory.Create<Analyzers.InitializeRestClientWithHandler>();
+            _fixture = RoslynFixtureFactory.Create<AICop.Analyzers.InitializeRestClientWithHandler>();
 
             _testCasePath = Path.Combine(
                 Directory.GetParent(
@@ -25,17 +26,18 @@ namespace Socitas.ReviewerCop.Test
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.HasDiagnosticAtAllMarkers(code, DiagnosticIds.InitializeRestClientWithHandler);
+            _fixture.HasDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.InitializeRestClientWithHandler);
         }
 
         [Test]
         [TestCase("WithLocalHandler")]
+        [TestCase("WithLocalHandlerAndAuth")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.NoDiagnosticAtAllMarkers(code, DiagnosticIds.InitializeRestClientWithHandler);
+            _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.InitializeRestClientWithHandler);
         }
     }
 }

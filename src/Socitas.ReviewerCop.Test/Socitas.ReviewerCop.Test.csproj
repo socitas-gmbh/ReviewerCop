@@ -35,6 +35,7 @@
     <ItemGroup Condition="'$(ContinuousIntegrationBuild)' != 'true'">
         <ProjectReference Include="../Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj" />
         <ProjectReference Include="../Socitas.ReviewerCop/Socitas.ReviewerCop.csproj" />
+        <ProjectReference Include="../Socitas.AICop/Socitas.AICop.csproj" />
     </ItemGroup>
 
     <!-- Binary dependencies used in CI -->
@@ -45,6 +46,10 @@
         </Reference>
         <Reference Include="Socitas.ReviewerCop">
             <HintPath>../Socitas.ReviewerCop/bin/$(Configuration)/net8.0/Socitas.ReviewerCop.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Socitas.AICop">
+            <HintPath>../Socitas.AICop/bin/$(Configuration)/net8.0/Socitas.AICop.dll</HintPath>
             <Private>True</Private>
         </Reference>
     </ItemGroup>

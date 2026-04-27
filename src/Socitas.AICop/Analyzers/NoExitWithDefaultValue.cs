@@ -5,7 +5,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Diagnostics;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 
-namespace Socitas.ReviewerCop.Analyzers;
+namespace Socitas.AICop.Analyzers;
 
 /// <summary>
 /// CC0015 – Do not use exit() with an explicit default value.

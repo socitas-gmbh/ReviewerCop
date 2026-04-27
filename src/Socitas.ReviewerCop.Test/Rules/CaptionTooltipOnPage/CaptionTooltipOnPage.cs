@@ -1,4 +1,5 @@
-using Socitas.ReviewerCop.CodeFixes;
+using AICop = Socitas.AICop;
+using Socitas.AICop.CodeFixes;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -6,13 +7,13 @@ namespace Socitas.ReviewerCop.Test
     public class CaptionTooltipOnPage : NavCodeAnalysisBase
     {
         private AnalyzerTestFixture _fixture;
-        private static readonly Analyzers.CaptionTooltipOnPage _analyzer = new();
+        private static readonly AICop.Analyzers.CaptionTooltipOnPage _analyzer = new();
         private string _testCasePath;
 
         [SetUp]
         public void Setup()
         {
-            _fixture = RoslynFixtureFactory.Create<Analyzers.CaptionTooltipOnPage>();
+            _fixture = RoslynFixtureFactory.Create<AICop.Analyzers.CaptionTooltipOnPage>();
 
             _testCasePath = Path.Combine(
                 Directory.GetParent(
@@ -28,7 +29,7 @@ namespace Socitas.ReviewerCop.Test
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.HasDiagnosticAtAllMarkers(code, DiagnosticIds.CaptionTooltipOnPage);
+            _fixture.HasDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.CaptionTooltipOnPage);
         }
 
         [Test]
@@ -40,7 +41,7 @@ namespace Socitas.ReviewerCop.Test
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
-            _fixture.NoDiagnosticAtAllMarkers(code, DiagnosticIds.CaptionTooltipOnPage);
+            _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.CaptionTooltipOnPage);
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Socitas.ReviewerCop.Test
                     AdditionalAnalyzers = [_analyzer]
                 });
 
-            fixture.TestCodeFix(currentCode, expectedCode, DiagnosticDescriptors.CaptionTooltipOnPage);
+            fixture.TestCodeFix(currentCode, expectedCode, AICop.DiagnosticDescriptors.CaptionTooltipOnPage);
         }
     }
 }

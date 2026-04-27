@@ -9,34 +9,27 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604;CS8605</WarningsAsErrors>
         <GenerateFullPaths>true</GenerateFullPaths>
+        <RootNamespace>Socitas.AICop</RootNamespace>
+        <AssemblyName>Socitas.AICop</AssemblyName>
+        <IsPackable>false</IsPackable>
 
         <!-- Path to BC dev tools may be overridden by /p:BcDevToolsDir= -->
         <BcDevToolsDir Condition="'$(BcDevToolsDir)'==''">../../Microsoft.Dynamics.BusinessCentral.Development.Tools</BcDevToolsDir>
-
-        <!-- NuGet package -->
-        <PackageId>Socitas.ReviewerCop</PackageId>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <DevelopmentDependency>true</DevelopmentDependency>
     </PropertyGroup>
+
     <ItemGroup>
-        <Compile Condition="'$(ContinuousIntegrationBuild)' == 'true'" Remove="Socitas.ReviewerCopAnalyzers.cs" />
-        <EmbeddedResource Update="Socitas.ReviewerCopAnalyzers.resx">
+        <Compile Condition="'$(ContinuousIntegrationBuild)' == 'true'" Remove="AICopAnalyzers.cs" />
+        <EmbeddedResource Update="AICopAnalyzers.resx">
             <Generator>MSBuild:Compile</Generator>
             <StronglyTypedLanguage>CSharp</StronglyTypedLanguage>
-            <StronglyTypedNamespace>Socitas.ReviewerCop</StronglyTypedNamespace>
-            <StronglyTypedFileName>Socitas.ReviewerCopAnalyzers.cs</StronglyTypedFileName>
-            <StronglyTypedClassName>ReviewerCopAnalyzers</StronglyTypedClassName>
+            <StronglyTypedNamespace>Socitas.AICop</StronglyTypedNamespace>
+            <StronglyTypedFileName>AICopAnalyzers.cs</StronglyTypedFileName>
+            <StronglyTypedClassName>AICopAnalyzers</StronglyTypedClassName>
         </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="../Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj" />
-        <!-- Build AICop alongside but do not compile against it; its DLL is shipped in the same NuGet package. -->
-        <ProjectReference Include="../Socitas.AICop/Socitas.AICop.csproj">
-            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-            <Private>false</Private>
-            <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-        </ProjectReference>
     </ItemGroup>
 
     <!-- BC Dev Tools -->
@@ -58,12 +51,6 @@
         </Reference>
     </ItemGroup>
 
-    <!-- Package DLLs -->
-    <ItemGroup>
-        <None Include="$(OutputPath)net8.0/Socitas.ReviewerCop.Common.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
-        <None Include="$(OutputPath)net8.0/Socitas.ReviewerCop.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
-        <None Include="../Socitas.AICop/bin/$(Configuration)/net8.0/Socitas.AICop.dll" Pack="true" PackagePath="lib/net8.0" Visible="false" />
-    </ItemGroup>
     <ItemGroup>
       <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -71,7 +58,7 @@
       </PackageReference>
     </ItemGroup>
 
-    <!-- Merge Socitas.ReviewerCop.Common into the main analyzer DLL so that
+    <!-- Merge Socitas.ReviewerCop.Common into the analyzer DLL so that
          alc.exe (which loads analyzers in an isolated AssemblyLoadContext) can
          find all types without needing extra probing paths. -->
     <!-- Disable the default ILRepack target from the NuGet package by providing

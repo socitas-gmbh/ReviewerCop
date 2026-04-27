@@ -4,7 +4,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Diagnostics;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 
-namespace Socitas.ReviewerCop.Analyzers;
+namespace Socitas.AICop.Analyzers;
 
 /// <summary>
 /// CC0012 – Opening brace must be on the same line as the declaration.

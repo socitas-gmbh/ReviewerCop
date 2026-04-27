@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- AI0001: NoGlobalVariables -->
+  <data name="NoGlobalVariablesTitle" xml:space="preserve">
+    <value>Avoid global variables in AL objects</value>
+  </data>
+  <data name="NoGlobalVariablesMessageFormat" xml:space="preserve">
+    <value>Global variable '{0}' should be avoided. Pass variables as parameters or use local variables instead.</value>
+  </data>
+  <data name="NoGlobalVariablesDescription" xml:space="preserve">
+    <value>Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables.</value>
+  </data>
+
+  <!-- AI0002: CaptionTooltipOnPage -->
+  <data name="CaptionTooltipOnPageTitle" xml:space="preserve">
+    <value>Caption and ToolTip should be defined on the table field, not on the page field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMessageFormat" xml:space="preserve">
+    <value>'{0}' should not be set on the page field. Define it on the table field instead so it is shared across all pages.</value>
+  </data>
+  <data name="CaptionTooltipOnPageDescription" xml:space="preserve">
+    <value>Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place.</value>
+  </data>
+  <data name="CaptionTooltipOnPageRemoveCodeAction" xml:space="preserve">
+    <value>ALCops: Remove '{0}' from page field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMoveCodeAction" xml:space="preserve">
+    <value>ALCops: Move '{0}' to table field</value>
+  </data>
+  <data name="CaptionTooltipOnPageMoveExtCodeAction" xml:space="preserve">
+    <value>ALCops: Move '{0}' to table extension</value>
+  </data>
+
+  <!-- AI0003: OpenBraceOnSameLine -->
+  <data name="OpenBraceOnSameLineTitle" xml:space="preserve">
+    <value>Opening brace must be on the same line as the declaration</value>
+  </data>
+  <data name="OpenBraceOnSameLineMessageFormat" xml:space="preserve">
+    <value>Opening brace '{{' must be on the same line as the declaration, not on a new line.</value>
+  </data>
+  <data name="OpenBraceOnSameLineDescription" xml:space="preserve">
+    <value>The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability.</value>
+  </data>
+  <data name="OpenBraceOnSameLineCodeAction" xml:space="preserve">
+    <value>ALCops: Move opening brace to same line</value>
+  </data>
+
+  <!-- AI0004: UseRestClient -->
+  <data name="UseRestClientTitle" xml:space="preserve">
+    <value>Use the "Rest Client" codeunit instead of raw HTTP types</value>
+  </data>
+  <data name="UseRestClientMessageFormat" xml:space="preserve">
+    <value>Variable of type '{0}' detected. Use the "Rest Client" codeunit instead of raw HTTP types for simpler, more maintainable HTTP communication.</value>
+  </data>
+  <data name="UseRestClientDescription" xml:space="preserve">
+    <value>The "Rest Client" codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate.</value>
+  </data>
+
+  <!-- AI0005: InitializeRestClientWithHandler -->
+  <data name="InitializeRestClientWithHandlerTitle" xml:space="preserve">
+    <value>Rest Client must be initialized with a handler codeunit from the current app</value>
+  </data>
+  <data name="InitializeRestClientWithHandlerMessageFormat" xml:space="preserve">
+    <value>RestClient.Initialize() must pass a handler codeunit defined in the current app. Create a codeunit that implements the "Http Client Handler" interface to centralize HTTP client configuration.</value>
+  </data>
+  <data name="InitializeRestClientWithHandlerDescription" xml:space="preserve">
+    <value>The "Rest Client" codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app's requirements.</value>
+  </data>
+
+  <!-- AI0006: NoExitWithDefaultValue -->
+  <data name="NoExitWithDefaultValueTitle" xml:space="preserve">
+    <value>Do not use exit() with an explicit default value</value>
+  </data>
+  <data name="NoExitWithDefaultValueMessageFormat" xml:space="preserve">
+    <value>exit() is called with the default value '{0}'. Use a bare exit; instead — AL returns the type's default automatically.</value>
+  </data>
+  <data name="NoExitWithDefaultValueDescription" xml:space="preserve">
+    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability.</value>
+  </data>
+</root>

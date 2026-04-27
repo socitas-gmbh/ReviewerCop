@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.ReviewerCop", "src\Socitas.ReviewerCop\Socitas.ReviewerCop.csproj", "{C6B6AF1C-0334-4182-8263-CEB416BA84D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.ReviewerCop.Test", "src\Socitas.ReviewerCop.Test\Socitas.ReviewerCop.Test.csproj", "{C405D8F2-1721-490D-92BD-8BF4EA0C135B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socitas.AICop", "src\Socitas.AICop\Socitas.AICop.csproj", "{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +34,15 @@ Global
 		{C405D8F2-1721-490D-92BD-8BF4EA0C135B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C405D8F2-1721-490D-92BD-8BF4EA0C135B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C405D8F2-1721-490D-92BD-8BF4EA0C135B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6134DB3D-F8BD-4E93-AF16-FF79689C4E88} = {A13B89A5-2680-40ED-AFF3-C9C7894136D0}
 		{C6B6AF1C-0334-4182-8263-CEB416BA84D0} = {A13B89A5-2680-40ED-AFF3-C9C7894136D0}
 		{C405D8F2-1721-490D-92BD-8BF4EA0C135B} = {A13B89A5-2680-40ED-AFF3-C9C7894136D0}
+		{D6A91E2A-4B0C-4A77-9F35-3E4B2C7A8E10} = {A13B89A5-2680-40ED-AFF3-C9C7894136D0}
 	EndGlobalSection
 EndGlobal

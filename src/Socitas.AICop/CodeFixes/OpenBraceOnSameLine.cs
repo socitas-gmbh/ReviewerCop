@@ -7,7 +7,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.CodeFixes;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Workspaces;
 
-namespace Socitas.ReviewerCop.CodeFixes;
+namespace Socitas.AICop.CodeFixes;
 
 /// <summary>
 /// CC0012 – Quick fix: move the opening brace to the same line as the declaration.
@@ -49,7 +49,7 @@ public sealed class OpenBraceOnSameLineFixProvider : CodeFixProvider
 
         ctx.RegisterCodeFix(
             new FixAction(
-                ReviewerCopAnalyzers.OpenBraceOnSameLineCodeAction,
+                AICopAnalyzers.OpenBraceOnSameLineCodeAction,
                 ct => MoveOpenBraceAsync(ctx.Document, token, ct),
                 nameof(OpenBraceOnSameLineFixProvider),
                 generateFixAll: true),

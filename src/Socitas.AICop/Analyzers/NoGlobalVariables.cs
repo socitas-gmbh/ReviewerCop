@@ -6,7 +6,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.Diagnostics;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Symbols;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 
-namespace Socitas.ReviewerCop.Analyzers;
+namespace Socitas.AICop.Analyzers;
 
 [DiagnosticAnalyzer]
 public sealed class NoGlobalVariables : DiagnosticAnalyzer

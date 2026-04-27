@@ -6,7 +6,7 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.Diagnostics;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Symbols;
 using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 
-namespace Socitas.ReviewerCop.Analyzers;
+namespace Socitas.AICop.Analyzers;
 
 /// <summary>
 /// CC0011 – Caption and ToolTip should be defined on the table field, not on the page field.
