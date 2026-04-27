@@ -1,0 +1,38 @@
+{
+  // Snippet - merge into your workspace's .vscode/tasks.json (do not replace
+  // the file). See samples/vscode/README.md for the full setup.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ReviewerCop: Install / Update",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/.vscode/install-reviewercop.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ReviewerCop: Install / Update (prerelease)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/.vscode/install-reviewercop.ps1",
+        "-PreRelease"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

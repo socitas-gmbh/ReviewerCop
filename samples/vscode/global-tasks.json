@@ -1,0 +1,48 @@
+{
+  // User-level tasks - merge into your global tasks.json so the task is
+  // available in EVERY workspace without per-repo setup.
+  //
+  // Location of the global tasks file:
+  //   Linux   : ~/.config/Code/User/tasks.json
+  //   macOS   : ~/Library/Application Support/Code/User/tasks.json
+  //   Windows : %APPDATA%\Code\User\tasks.json
+  //
+  // Open it from the command palette: 'Tasks: Open User Tasks'.
+  //
+  // Prerequisite: copy install-reviewercop.ps1 to ~/.socitas/ once.
+  // See samples/vscode/README.md for the one-time setup.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ReviewerCop: Install / Update",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${userHome}/.socitas/install-reviewercop.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ReviewerCop: Install / Update (prerelease)",
+      "type": "shell",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${userHome}/.socitas/install-reviewercop.ps1",
+        "-PreRelease"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# Sample consumer pipeline showing how to wire ReviewerCop into an existing
+# AL build. Adapt to your repo layout - the only ReviewerCop-specific bits are
+# the resources/repositories block, the template reference, and the two
+# /analyzer: append lines.
+
+trigger:
+  - main
+
+pool:
+  vmImage: windows-latest
+
+resources:
+  repositories:
+    - repository: reviewercop
+      type: github
+      endpoint: socitas-github          # GitHub service connection in your project
+      name: socitas/ReviewerCop
+      ref: refs/tags/v1.0.0             # pin to a tag, NOT to main
+
+variables:
+  appSymbolFolder: $(Build.SourcesDirectory)/.alpackages
+  nugetConfigPath: $(Build.SourcesDirectory)/.nuget/nuget.config
+
+steps:
+  - task: NuGetAuthenticate@1
+    displayName: Authenticate against feeds in nuget.config
+
+  # Install ReviewerCop and expose analyzer paths as pipeline variables.
+  - template: samples/azure-pipelines/reviewercop-install.yml@reviewercop
+    parameters:
+      appSymbolFolder:   $(appSymbolFolder)
+      nugetConfigPath:   $(nugetConfigPath)
+      includePrerelease: false
+      enableAICop:       false   # flip to true to also wire Socitas.AICop.dll
+
+  # Your existing AL compile step. The /analyzer: arguments are the only new
+  # additions - everything else (symbol restore, alc.exe path resolution,
+  # /project, /out, etc.) stays as you had it.
+  - powershell: |
+      $alcParameters = @(
+          "/project:$(Build.SourcesDirectory)",
+          "/packagecachepath:$(appSymbolFolder)",
+          "/out:$(Build.ArtifactStagingDirectory)/app.app"
+      )
+      $alcParameters += @("/analyzer:$(reviewercop.analyzerPath)")
+      # Uncomment when enableAICop is true above:
+      # $alcParameters += @("/analyzer:$(reviewercop.aicopPath)")
+
+      & alc.exe @alcParameters
+      if ($LASTEXITCODE -ne 0) { throw "alc.exe failed with exit code $LASTEXITCODE." }
+    displayName: Compile AL with ReviewerCop attached

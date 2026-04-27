@@ -1,0 +1,72 @@
+# Reusable steps template that installs the Socitas.ReviewerCop NuGet package
+# from GitHub Packages and exposes the analyzer DLL paths as pipeline
+# variables. Append the resulting paths to your existing alc.exe /analyzer:
+# arguments.
+#
+# Output variables:
+#   reviewercop.analyzerPath  - path to Socitas.ReviewerCop.dll  (always set)
+#   reviewercop.aicopPath     - path to Socitas.AICop.dll        (set when enableAICop is true)
+#
+# Auth: the agent's nuget.config must already authenticate against
+#       https://nuget.pkg.github.com/socitas/index.json. See
+#       samples/azure-pipelines/README.md for the recommended setups.
+
+parameters:
+  - name: appSymbolFolder
+    type: string
+    default: $(Build.SourcesDirectory)/.alpackages
+  - name: nugetConfigPath
+    type: string
+    default: $(Build.SourcesDirectory)/.nuget/nuget.config
+  - name: includePrerelease
+    type: boolean
+    default: false
+  - name: version
+    type: string
+    default: ''
+  - name: enableAICop
+    type: boolean
+    default: false
+
+steps:
+  - task: PowerShell@2
+    displayName: Install Socitas.ReviewerCop analyzer(s)
+    inputs:
+      targetType: inline
+      pwsh: true
+      script: |
+        $ErrorActionPreference = 'Stop'
+
+        $appSymbolFolder = '${{ parameters.appSymbolFolder }}'
+        $nugetConfigPath = '${{ parameters.nugetConfigPath }}'
+
+        if (-not (Test-Path $nugetConfigPath)) {
+            throw "nuget.config not found at $nugetConfigPath."
+        }
+        New-Item -ItemType Directory -Force -Path $appSymbolFolder | Out-Null
+
+        $nugetArgs = @(
+            'install', 'Socitas.ReviewerCop',
+            '-configFile',     $nugetConfigPath,
+            '-OutputDirectory', $appSymbolFolder
+        )
+        if ('${{ parameters.includePrerelease }}' -eq 'True') { $nugetArgs += '-PreRelease' }
+        if ('${{ parameters.version }}' -ne '')               { $nugetArgs += @('-Version', '${{ parameters.version }}') }
+
+        Write-Host "Running: nuget $($nugetArgs -join ' ')"
+        & nuget @nugetArgs
+        if ($LASTEXITCODE -ne 0) { throw "nuget install failed with exit code $LASTEXITCODE." }
+
+        $reviewerDll = (Get-ChildItem -Path $appSymbolFolder -Recurse `
+                          -Filter 'Socitas.ReviewerCop.dll' | Select-Object -First 1).FullName
+        if (-not $reviewerDll) { throw "Socitas.ReviewerCop.dll not found under $appSymbolFolder." }
+        Write-Host "Socitas.ReviewerCop.dll: $reviewerDll"
+        Write-Host "##vso[task.setvariable variable=reviewercop.analyzerPath]$reviewerDll"
+
+        if ('${{ parameters.enableAICop }}' -eq 'True') {
+            $aiDll = (Get-ChildItem -Path $appSymbolFolder -Recurse `
+                        -Filter 'Socitas.AICop.dll' | Select-Object -First 1).FullName
+            if (-not $aiDll) { throw "Socitas.AICop.dll not found under $appSymbolFolder." }
+            Write-Host "Socitas.AICop.dll: $aiDll"
+            Write-Host "##vso[task.setvariable variable=reviewercop.aicopPath]$aiDll"
+        }

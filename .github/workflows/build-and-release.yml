@@ -97,6 +97,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Surface the raw analyzer DLLs as release assets so consumers can fetch
+      # them directly via the GitHub Releases API without auth or NuGet tooling.
+      # The DLLs are post-ILRepack (Common merged in) per src/*/ILRepack.targets.
+      - name: Stage analyzer DLLs for release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          mkdir -p ./artifacts/dlls
+          cp ./src/Socitas.ReviewerCop/bin/Release/net8.0/Socitas.ReviewerCop.dll ./artifacts/dlls/
+          cp ./src/Socitas.AICop/bin/Release/net8.0/Socitas.AICop.dll             ./artifacts/dlls/
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/v')
@@ -107,6 +117,8 @@ jobs:
           prerelease: ${{ steps.gitversion.outputs.PreReleaseTag != '' }}
           files: |
             ./artifacts/*.nupkg
+            ./artifacts/dlls/Socitas.ReviewerCop.dll
+            ./artifacts/dlls/Socitas.AICop.dll
 
       - name: Publish to GitHub Packages
         run: >

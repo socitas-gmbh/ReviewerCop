@@ -1,0 +1,15 @@
+{
+  // Snippet - merge the al.codeAnalyzers entries into your workspace's
+  // .vscode/settings.json (do not replace the file).
+  //
+  // ${analyzerFolder} resolves to the AL Language extension's bin/Analyzers
+  // folder, which is where samples/vscode/install-reviewercop.ps1 drops the
+  // analyzer DLLs.
+  "al.codeAnalyzers": [
+    "${CodeCop}",
+    "${UICop}",
+    "${analyzerFolder}Socitas.ReviewerCop.dll"
+    // Uncomment the following line to enable the AI-specific rules:
+    // ,"${analyzerFolder}Socitas.AICop.dll"
+  ]
+}

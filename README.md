@@ -6,9 +6,25 @@ A Roslyn-based code analyzer for [AL](https://learn.microsoft.com/en-us/dynamics
 
 ## Overview
 
-ReviewerCop is distributed as the `Socitas.ReviewerCop` NuGet package. It hooks into the AL compiler via the BC Development Tools SDK and reports diagnostics directly in your editor and CI pipeline.
+ReviewerCop is distributed two ways:
+
+- **GitHub Releases** — `Socitas.ReviewerCop.dll` and `Socitas.AICop.dll` are attached as raw assets to every `v*` tag for anonymous download (used by the local VS Code task).
+- **GitHub Packages NuGet feed** (`Socitas.ReviewerCop`) — used by Azure Pipelines and any `nuget install` flow.
+
+It hooks into the AL compiler via the BC Development Tools SDK and reports diagnostics directly in your editor and CI pipeline.
+
+The package ships **two analyzer DLLs** — `Socitas.ReviewerCop.dll` (general AL rules, `RC*` IDs) and `Socitas.AICop.dll` (AI-related rules, `AI*` IDs). ReviewerCop is enabled by default; AICop is opt-in.
 
 This project is based on and inspired by [ALCops/Analyzers](https://github.com/ALCops/Analyzers), used under the MIT License.
+
+## Install
+
+- **VS Code (local development)** — see [samples/vscode/README.md](samples/vscode/README.md) for a workspace or user-level task that downloads the analyzer DLLs from GitHub Releases and wires them into `al.codeAnalyzers` via the `${analyzerFolder}` placeholder. No NuGet client, no PAT.
+- **Azure Pipelines (CI)** — see [samples/azure-pipelines/README.md](samples/azure-pipelines/README.md) for the reusable `steps` template. Mirrors the existing `BusinessCentral.LinterCop` install pattern: `nuget install Socitas.ReviewerCop` against the GitHub Packages feed, then glob the DLL into `alc.exe /analyzer:`.
+- **Manual (CI-style)** — `nuget install Socitas.ReviewerCop -Source https://nuget.pkg.github.com/socitas/index.json` with a GitHub PAT (`read:packages` scope) configured in `nuget.config`. The DLLs land in `Socitas.ReviewerCop/lib/net8.0/`.
+- **Manual (raw)** — download `Socitas.ReviewerCop.dll` and `Socitas.AICop.dll` directly from a [Release](https://github.com/socitas/ReviewerCop/releases) and reference them from `al.codeAnalyzers`.
+
+If you already install `BusinessCentral.LinterCop` in your pipelines, ReviewerCop is a drop-in addition: same `nuget install` pattern, same `/analyzer:` glob shape — see the [Azure Pipelines README](samples/azure-pipelines/README.md#drop-in-next-to-businesscentrallintercop) for the diff.
 
 ## Rules
 
@@ -58,8 +74,8 @@ dotnet test
 GitHub Actions workflows handle build, test, and release:
 
 - **Pull requests** — build and test
-- **Push to `main`** — build, test, and publish a pre-release package to GitHub Packages
-- **Tag `v*`** — create a GitHub Release and publish to both GitHub Packages and NuGet.org
+- **Push to `main`** — build, test, and publish a prerelease package to GitHub Packages
+- **Tag `v*`** — publish to GitHub Packages and create a GitHub Release with both the `.nupkg` and the raw analyzer DLLs (`Socitas.ReviewerCop.dll`, `Socitas.AICop.dll`) attached as assets
 
 Versioning is managed via [GitVersion](https://gitversion.net/) using GitHub Flow.
 
