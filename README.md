@@ -29,6 +29,10 @@ This project is based on and inspired by [ALCops/Analyzers](https://github.com/A
 | AI0005 | Initialize Rest Client with Handler | Design | Warning | AI Cop |
 | AI0006 | No Exit with Default Value | Style | Warning | AI Cop |
 
+## Compatibility
+
+The analyzer and test projects target **.NET 8**. BC Development Tools sources whose target framework is higher than `net8.0` (e.g. the `net10.0` BCArtifact published for AL `18.0.35.37418` and later previews) are excluded from the CI test matrix because their `Microsoft.Dynamics.Nav.CodeAnalysis.dll` cannot be loaded by a `net8.0` test host. Support for those versions is pending a move of the analyzer/test projects to `net10.0`.
+
 ## Building
 
 **Prerequisites:** .NET 8 SDK and BC Development Tools for supported Business Central versions 16 and later (obtained automatically in CI via the provided GitHub Actions).

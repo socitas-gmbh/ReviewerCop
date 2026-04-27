@@ -43,6 +43,9 @@ runs:
         $unwantedVersions = @('16.0.21.41228', '16.0.21.42129', '16.0.21.53261', '16.0.21.57573')
         $deduped = $deduped | Where-Object { $unwantedVersions -notcontains $_.version }
 
+        # Test project targets net8.0; skip sources whose BC DevTools require a higher TFM (e.g. net10.0).
+        $deduped = $deduped | Where-Object { $_.tfm -eq 'net8.0' }
+
         echo "isempty=$([string]($deduped.Count -eq 0).ToString().ToLower())" >> $env:GITHUB_OUTPUT
         $matrix = @{'include' = $deduped } | ConvertTo-Json -Compress
         echo "matrix=$($matrix)" >> $env:GITHUB_OUTPUT
