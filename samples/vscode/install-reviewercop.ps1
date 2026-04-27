@@ -41,7 +41,7 @@
 param(
     [switch]$PreRelease,
     [string]$Version = '',
-    [string]$Repo    = 'socitas/ReviewerCop',
+    [string]$Repo    = 'socitas-gmbh/ReviewerCop',
     [string]$GitHubToken = ''
 )
 
