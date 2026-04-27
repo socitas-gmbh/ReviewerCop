@@ -100,6 +100,19 @@ jobs:
           name: Socitas.ReviewerCop.Common
           path: ./src/Socitas.ReviewerCop.Common/bin/Release/
 
+      # Socitas.AICop
+      - name: Restore Socitas.AICop
+        run: dotnet restore ./src/Socitas.AICop/Socitas.AICop.csproj
+
+      - name: Build Socitas.AICop
+        run: dotnet build ./src/Socitas.AICop/Socitas.AICop.csproj --configuration Release --no-restore
+
+      - name: Upload Socitas.AICop artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: Socitas.AICop
+          path: ./src/Socitas.AICop/bin/Release/
+
       # Socitas.ReviewerCop
       - name: Restore Socitas.ReviewerCop
         run: dotnet restore ./src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj
@@ -143,6 +156,12 @@ jobs:
         with:
           name: Socitas.ReviewerCop.Common
           path: ./src/Socitas.ReviewerCop.Common/bin/Release/
+
+      - name: Download Socitas.AICop binaries
+        uses: actions/download-artifact@v8
+        with:
+          name: Socitas.AICop
+          path: ./src/Socitas.AICop/bin/Release/
 
       - name: Download Socitas.ReviewerCop binaries
         uses: actions/download-artifact@v8
