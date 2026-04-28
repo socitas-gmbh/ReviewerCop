@@ -79,7 +79,8 @@ public sealed class UseRestClient : DiagnosticAnalyzer
                     if (token.IsKind(EnumProvider.SyntaxKind.OpenBraceToken))
                         break;
 
-                    if (string.Equals(token.ValueText, "Http Client Handler", StringComparison.OrdinalIgnoreCase))
+                    var valueText = token.ValueText?.Trim('"');
+                    if (string.Equals(valueText, "Http Client Handler", StringComparison.OrdinalIgnoreCase))
                         return true;
                 }
                 return false;

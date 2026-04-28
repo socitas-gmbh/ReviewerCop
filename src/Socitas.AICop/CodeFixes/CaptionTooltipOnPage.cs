@@ -85,13 +85,6 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
 
         var propertyName = token.ValueText ?? string.Empty;
 
-        ctx.RegisterCodeFix(
-            new GuidanceCodeAction(
-                string.Format(AICopAnalyzers.CaptionTooltipOnPageGuidanceAction, propertyName),
-                nameof(CaptionTooltipOnPageFixProvider) + "_Guidance",
-                ctx.Document),
-            ctx.Diagnostics[0]);
-
         // Always offer "Remove from page field"
         ctx.RegisterCodeFix(
             new RemoveAction(
@@ -99,6 +92,13 @@ public sealed class CaptionTooltipOnPageFixProvider : CodeFixProvider
                 ct => RemovePropertyAsync(ctx.Document, propertySyntax, ct),
                 nameof(CaptionTooltipOnPageFixProvider) + "_Remove_" + propertyName,
                 generateFixAll: true),
+            ctx.Diagnostics[0]);
+
+        ctx.RegisterCodeFix(
+            new GuidanceCodeAction(
+                string.Format(AICopAnalyzers.CaptionTooltipOnPageGuidanceAction, propertyName),
+                nameof(CaptionTooltipOnPageFixProvider) + "_Guidance",
+                ctx.Document),
             ctx.Diagnostics[0]);
 
         // Resolve the related table field
