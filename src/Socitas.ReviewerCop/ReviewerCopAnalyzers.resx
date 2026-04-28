@@ -153,7 +153,24 @@
     <value>When DataClassification is set as a table property it applies to all fields automatically. Repeating the same classification on individual fields is redundant. Set DataClassification once on the table and remove per-field declarations.</value>
   </data>
 
+  <!-- RC0009: TernaryOperator -->
+  <data name="TernaryOperatorTitle" xml:space="preserve">
+    <value>Use ternary operator to simplify if-then-else assignment</value>
+  </data>
+  <data name="TernaryOperatorMessageFormat" xml:space="preserve">
+    <value>Both branches of this if-then-else assign to '{0}'; simplify with the ternary operator (?:).</value>
+  </data>
+  <data name="TernaryOperatorDescription" xml:space="preserve">
+    <value>When both branches of an if-then-else assign to the same variable, the ternary operator (?:) expresses the intent more concisely on a single line.</value>
+  </data>
+  <data name="TernaryOperatorCodeAction" xml:space="preserve">
+    <value>ALCops: Replace with ?:</value>
+  </data>
+
   <!-- RC0008: LabelCommentForPlaceholders -->
+  <data name="LabelCommentForPlaceholdersCodeAction" xml:space="preserve">
+    <value>ALCops: Add Comment property</value>
+  </data>
   <data name="LabelCommentForPlaceholdersTitle" xml:space="preserve">
     <value>Labels with placeholders must have a Comment property</value>
   </data>

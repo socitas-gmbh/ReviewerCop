@@ -89,6 +89,10 @@ namespace Socitas.ReviewerCop {
             get { return ResourceManager.GetString("EventSubscriberNamingConventionTitle", resourceCulture); }
         }
 
+        internal static string LabelCommentForPlaceholdersCodeAction {
+            get { return ResourceManager.GetString("LabelCommentForPlaceholdersCodeAction", resourceCulture); }
+        }
+
         internal static string LabelCommentForPlaceholdersDescription {
             get { return ResourceManager.GetString("LabelCommentForPlaceholdersDescription", resourceCulture); }
         }
@@ -99,6 +103,22 @@ namespace Socitas.ReviewerCop {
 
         internal static string LabelCommentForPlaceholdersTitle {
             get { return ResourceManager.GetString("LabelCommentForPlaceholdersTitle", resourceCulture); }
+        }
+
+        internal static string TernaryOperatorCodeAction {
+            get { return ResourceManager.GetString("TernaryOperatorCodeAction", resourceCulture); }
+        }
+
+        internal static string TernaryOperatorDescription {
+            get { return ResourceManager.GetString("TernaryOperatorDescription", resourceCulture); }
+        }
+
+        internal static string TernaryOperatorMessageFormat {
+            get { return ResourceManager.GetString("TernaryOperatorMessageFormat", resourceCulture); }
+        }
+
+        internal static string TernaryOperatorTitle {
+            get { return ResourceManager.GetString("TernaryOperatorTitle", resourceCulture); }
         }
 
         internal static string NoModifyInOnValidateCodeAction {

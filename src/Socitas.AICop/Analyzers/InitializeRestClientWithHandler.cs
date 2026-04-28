@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using Socitas.ReviewerCop.Common.Extensions;
 using Socitas.ReviewerCop.Common.Reflection;
@@ -10,14 +9,12 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 namespace Socitas.AICop.Analyzers;
 
 /// <summary>
-/// CC0014 – RestClient.Initialize() must pass a handler codeunit defined in the current app.
+/// AI0005 – RestClient.Initialize() must pass a handler codeunit defined in the current app.
 /// Using a custom handler ensures HTTP client configuration is centralized and consistent.
 /// </summary>
 [DiagnosticAnalyzer]
 public sealed class InitializeRestClientWithHandler : DiagnosticAnalyzer
 {
-    private static readonly ConcurrentDictionary<Compilation, ImmutableHashSet<string>> LocalCodeunitCache = new();
-
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
         ImmutableArray.Create(DiagnosticDescriptors.InitializeRestClientWithHandler);
 
@@ -44,8 +41,6 @@ public sealed class InitializeRestClientWithHandler : DiagnosticAnalyzer
         if (!string.Equals(receiverType.Name, "Rest Client", StringComparison.OrdinalIgnoreCase))
             return;
 
-        var localCodeunitNames = LocalCodeunitCache.GetOrAdd(ctx.Compilation, CollectLocalCodeunitNames);
-
         // Check if any argument is a codeunit from the current app.
         // When a codeunit is passed to an Interface parameter, the resolved argument
         // type may be the interface itself (NavTypeKind.Interface) rather than the
@@ -57,10 +52,10 @@ public sealed class InitializeRestClientWithHandler : DiagnosticAnalyzer
             if (argType is null)
                 continue;
 
-            // Direct codeunit argument — check it is local.
+            // Direct codeunit argument — check it is defined in the current project's source.
             if (argType.NavTypeKind == EnumProvider.NavTypeKind.Codeunit)
             {
-                if (!string.IsNullOrEmpty(argType.Name) && localCodeunitNames.Contains(argType.Name))
+                if (argType.IsDefinedInSource())
                     return;
                 continue;
             }
@@ -76,8 +71,7 @@ public sealed class InitializeRestClientWithHandler : DiagnosticAnalyzer
 
                 if (underlyingType is not null
                     && underlyingType.NavTypeKind == EnumProvider.NavTypeKind.Codeunit
-                    && !string.IsNullOrEmpty(underlyingType.Name)
-                    && localCodeunitNames.Contains(underlyingType.Name))
+                    && underlyingType.IsDefinedInSource())
                     return;
 
                 // If we cannot unwrap to a concrete codeunit, the caller is still
@@ -89,54 +83,5 @@ public sealed class InitializeRestClientWithHandler : DiagnosticAnalyzer
         ctx.ReportDiagnostic(Diagnostic.Create(
             DiagnosticDescriptors.InitializeRestClientWithHandler,
             invocation.Syntax.GetLocation()));
-    }
-
-    private static ImmutableHashSet<string> CollectLocalCodeunitNames(Compilation compilation)
-    {
-        var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        foreach (var tree in compilation.SyntaxTrees)
-        {
-            foreach (var node in tree.GetRoot().DescendantNodes())
-            {
-                if (node.Kind != EnumProvider.SyntaxKind.CodeunitObject)
-                    continue;
-
-                var name = ExtractObjectName(node);
-                if (!string.IsNullOrEmpty(name))
-                    names.Add(name!);
-            }
-        }
-
-        return names.ToImmutableHashSet(StringComparer.OrdinalIgnoreCase);
-    }
-
-    private static string? ExtractObjectName(SyntaxNode objectNode)
-    {
-        // Codeunit declaration: codeunit <id> <name> { ... }
-        // DescendantTokens is lazy — we break after 3–4 tokens so we never walk the body.
-        bool passedId = false;
-        foreach (var token in objectNode.DescendantTokens())
-        {
-            if (token.IsKind(EnumProvider.SyntaxKind.Int32LiteralToken))
-            {
-                passedId = true;
-                continue;
-            }
-
-            if (!passedId)
-                continue;
-
-            if (token.IsKind(EnumProvider.SyntaxKind.IdentifierToken) ||
-                string.Equals(token.Kind.ToString(), "StringLiteralToken", StringComparison.OrdinalIgnoreCase))
-            {
-                return token.ValueText;
-            }
-
-            // Hit a brace or unexpected token — name is missing, bail out.
-            break;
-        }
-
-        return null;
     }
 }

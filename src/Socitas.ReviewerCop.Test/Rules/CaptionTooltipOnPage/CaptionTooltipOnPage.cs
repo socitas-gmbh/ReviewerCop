@@ -63,5 +63,20 @@ namespace Socitas.ReviewerCop.Test
 
             fixture.TestCodeFix(currentCode, expectedCode, AICop.DiagnosticDescriptors.CaptionTooltipOnPage);
         }
+
+        [Test]
+        public async Task HasGuidanceAction()
+        {
+            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "PageFieldWithCaption.al"))
+                .ConfigureAwait(false);
+
+            var fixture = RoslynFixtureFactory.Create<CaptionTooltipOnPageFixProvider>(
+                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
+
+            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.CaptionTooltipOnPage)
+                .Select(a => a.Title);
+
+            Assert.That(titles, Has.Some.StartsWith("To fix"));
+        }
     }
 }

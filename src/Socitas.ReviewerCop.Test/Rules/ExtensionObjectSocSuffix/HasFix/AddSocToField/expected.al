@@ -1,0 +1,20 @@
+table 50100 MyTable
+{
+    fields
+    {
+        field(1; Name; Text[100]) { }
+    }
+}
+
+tableextension 50100 MyTableExt extends MyTable
+{
+    fields
+    {
+        field(50100; "Service Code SOC"; Code[10]) { }
+    }
+
+    procedure GetServiceCodeSOC(): Code[10]
+    begin
+        exit(Rec."Service Code SOC");
+    end;
+}

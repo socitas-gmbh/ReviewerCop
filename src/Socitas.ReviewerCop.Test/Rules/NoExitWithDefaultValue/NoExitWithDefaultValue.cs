@@ -1,4 +1,5 @@
 using AICop = Socitas.AICop;
+using Socitas.AICop.CodeFixes;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -6,6 +7,7 @@ namespace Socitas.ReviewerCop.Test
     public class NoExitWithDefaultValue : NavCodeAnalysisBase
     {
         private AnalyzerTestFixture _fixture;
+        private static readonly AICop.Analyzers.NoExitWithDefaultValue _analyzer = new();
         private string _testCasePath;
 
         [SetUp]
@@ -42,6 +44,40 @@ namespace Socitas.ReviewerCop.Test
                 .ConfigureAwait(false);
 
             _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.NoExitWithDefaultValue);
+        }
+
+        [Test]
+        [TestCase("StripDefaultArgument")]
+        public async Task HasFix(string testCase)
+        {
+            var currentCode = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasFix), testCase, "current.al"))
+                .ConfigureAwait(false);
+
+            var expectedCode = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasFix), testCase, "expected.al"))
+                .ConfigureAwait(false);
+
+            var fixture = RoslynFixtureFactory.Create<NoExitWithDefaultValueFixProvider>(
+                new CodeFixTestFixtureConfig
+                {
+                    AdditionalAnalyzers = [_analyzer]
+                });
+
+            fixture.TestCodeFix(currentCode, expectedCode, AICop.DiagnosticDescriptors.NoExitWithDefaultValue);
+        }
+
+        [Test]
+        public async Task HasGuidanceAction()
+        {
+            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "ExitWithZero.al"))
+                .ConfigureAwait(false);
+
+            var fixture = RoslynFixtureFactory.Create<NoExitWithDefaultValueFixProvider>(
+                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
+
+            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.NoExitWithDefaultValue)
+                .Select(a => a.Title);
+
+            Assert.That(titles, Has.Some.StartsWith("To fix"));
         }
     }
 }

@@ -1,4 +1,5 @@
 using AICop = Socitas.AICop;
+using Socitas.AICop.CodeFixes;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -6,6 +7,7 @@ namespace Socitas.ReviewerCop.Test
     public class NoGlobalVariables : NavCodeAnalysisBase
     {
         private AnalyzerTestFixture _fixture;
+        private static readonly AICop.Analyzers.NoGlobalVariables _analyzer = new();
         private string _testCasePath;
 
         [SetUp]
@@ -48,6 +50,21 @@ namespace Socitas.ReviewerCop.Test
                 .ConfigureAwait(false);
 
             _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.NoGlobalVariables);
+        }
+
+        [Test]
+        public async Task HasGuidanceAction()
+        {
+            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "CodeunitWithGlobalVar.al"))
+                .ConfigureAwait(false);
+
+            var fixture = RoslynFixtureFactory.Create<NoGlobalVariablesGuidanceProvider>(
+                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
+
+            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.NoGlobalVariables)
+                .Select(a => a.Title);
+
+            Assert.That(titles, Has.Some.StartsWith("To fix"));
         }
     }
 }

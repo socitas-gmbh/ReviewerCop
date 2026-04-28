@@ -44,6 +44,9 @@ If you already install `BusinessCentral.LinterCop` in your pipelines, ReviewerCo
 | AI0004 | Use Rest Client | Design | Warning | AI Cop |
 | AI0005 | Initialize Rest Client with Handler | Design | Warning | AI Cop |
 | AI0006 | No Exit with Default Value | Style | Warning | AI Cop |
+| AI0007 | Use Action Ref | Design | Warning | AI Cop |
+| AI0008 | Extension Object Member Missing SOC Suffix | Naming | Warning | AI Cop |
+| AI0009 | Local Procedure Has SOC Suffix | Naming | Warning | AI Cop |
 
 ## Compatibility
 

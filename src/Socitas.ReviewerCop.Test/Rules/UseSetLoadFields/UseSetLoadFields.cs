@@ -37,6 +37,7 @@ namespace Socitas.ReviewerCop.Test
         [TestCase("TemporaryRecordFindSet")]
         [TestCase("FindMinusExistenceCheck")]
         [TestCase("VariablePassedToAnotherFunction")]
+        [TestCase("FindInOnFindRecord")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))

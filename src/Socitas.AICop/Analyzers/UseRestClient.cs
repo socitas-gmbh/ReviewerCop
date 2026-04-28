@@ -8,9 +8,10 @@ using Microsoft.Dynamics.Nav.CodeAnalysis.Syntax;
 namespace Socitas.AICop.Analyzers;
 
 /// <summary>
-/// CC0013 – Use the "Rest Client" codeunit instead of raw HttpClient types.
+/// AI0004 – Use the "Rest Client" codeunit instead of raw HttpClient types.
 /// Flags variables declared as HttpClient, HttpRequestMessage, HttpResponseMessage,
 /// HttpContent, or HttpHeaders — the "Rest Client" codeunit wraps all of these.
+/// Exception: codeunits that implement "Http Client Handler" must use HttpClient directly.
 /// </summary>
 [DiagnosticAnalyzer]
 public sealed class UseRestClient : DiagnosticAnalyzer
@@ -36,6 +37,10 @@ public sealed class UseRestClient : DiagnosticAnalyzer
         if (ctx.IsObsolete())
             return;
 
+        // Codeunits that implement "Http Client Handler" must use HttpClient directly.
+        if (IsInsideHttpClientHandlerImpl(ctx.Node))
+            return;
+
         foreach (var token in ctx.Node.DescendantTokens())
         {
             if (!token.IsKind(EnumProvider.SyntaxKind.IdentifierToken))
@@ -54,5 +59,35 @@ public sealed class UseRestClient : DiagnosticAnalyzer
                 token.GetLocation(),
                 token.ValueText));
         }
+    }
+
+    /// <summary>
+    /// Returns true when the given var section node is inside a codeunit that implements
+    /// "Http Client Handler". Those codeunits must use HttpClient directly in their Send method.
+    /// </summary>
+    private static bool IsInsideHttpClientHandlerImpl(SyntaxNode varSectionNode)
+    {
+        var node = varSectionNode.Parent;
+        while (node is not null)
+        {
+            if (node.Kind == EnumProvider.SyntaxKind.CodeunitObject)
+            {
+                // Scan the declaration header (tokens before the opening brace) for
+                // the "Http Client Handler" interface name in the implements clause.
+                foreach (var token in node.DescendantTokens())
+                {
+                    if (token.IsKind(EnumProvider.SyntaxKind.OpenBraceToken))
+                        break;
+
+                    if (string.Equals(token.ValueText, "Http Client Handler", StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+                return false;
+            }
+
+            node = node.Parent;
+        }
+
+        return false;
     }
 }

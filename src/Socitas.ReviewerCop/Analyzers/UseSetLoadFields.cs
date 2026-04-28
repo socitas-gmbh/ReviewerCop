@@ -20,6 +20,8 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
         ImmutableHashSet.Create(StringComparer.OrdinalIgnoreCase,
             "FindSet", "FindFirst", "FindLast", "Find");
 
+    private const string OnFindRecordTrigger = "OnFindRecord";
+
     private const string SetLoadFieldsMethod = "SetLoadFields";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
@@ -59,6 +61,11 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
 
         var enclosingRoutine = GetEnclosingRoutine(ctx.Operation.Syntax);
         if (enclosingRoutine is null)
+            return;
+
+        // OnFindRecord uses Find(Which) as the standard record-lookup mechanism;
+        // the platform drives field loading here, so SetLoadFields is unnecessary.
+        if (IsOnFindRecordTrigger(enclosingRoutine))
             return;
 
         // If the record is passed to another function, skip to avoid false positives.
@@ -156,6 +163,16 @@ public sealed class UseSetLoadFields : DiagnosticAnalyzer
         }
 
         return current;
+    }
+
+    private static bool IsOnFindRecordTrigger(SyntaxNode routine)
+    {
+        if (!IsSyntaxKind(routine, "TriggerDeclaration"))
+            return false;
+
+        var nameToken = routine.DescendantTokens()
+            .FirstOrDefault(t => IsSyntaxKind(t, "IdentifierToken"));
+        return string.Equals(nameToken.ValueText, OnFindRecordTrigger, StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsPassedToAnotherFunction(SyntaxNode enclosingRoutine, SyntaxNode findCallSyntax, string receiverName)

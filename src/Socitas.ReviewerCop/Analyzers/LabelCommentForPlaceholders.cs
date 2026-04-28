@@ -49,12 +49,37 @@ public sealed class LabelCommentForPlaceholders : DiagnosticAnalyzer
         if (labelText is null || !PlaceholderPattern.IsMatch(labelText))
             return;
 
+        if (IsLocked(labelNode))
+            return;
+
         if (HasCommentProperty(labelNode))
             return;
 
         ctx.ReportDiagnostic(Diagnostic.Create(
             DiagnosticDescriptors.LabelCommentForPlaceholders,
             stringToken.Value.GetLocation()));
+    }
+
+    private static bool IsLocked(SyntaxNode labelNode)
+    {
+        foreach (var token in labelNode.DescendantTokens())
+        {
+            if (token.Kind != SyntaxKind.IdentifierToken)
+                continue;
+
+            if (!string.Equals(token.ValueText, "Locked", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            var eq = token.GetNextToken();
+            if (eq.Kind != SyntaxKind.EqualsToken)
+                continue;
+
+            var val = eq.GetNextToken();
+            if (val.Kind == SyntaxKind.TrueKeyword ||
+                string.Equals(val.ValueText, "true", StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
     }
 
     private static bool HasCommentProperty(SyntaxNode labelNode)

@@ -43,7 +43,7 @@ public static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: AICopAnalyzers.UseRestClientDescription,
-        helpLinkUri: GetHelpUri(DiagnosticIds.UseRestClient));
+        helpLinkUri: "https://learn.microsoft.com/en-us/dynamics365/business-central/application/system-application/codeunit/system.restclient.rest-client");
 
     public static readonly DiagnosticDescriptor InitializeRestClientWithHandler = new(
         id: DiagnosticIds.InitializeRestClientWithHandler,
@@ -64,6 +64,36 @@ public static class DiagnosticDescriptors
         isEnabledByDefault: true,
         description: AICopAnalyzers.NoExitWithDefaultValueDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.NoExitWithDefaultValue));
+
+    public static readonly DiagnosticDescriptor UseActionRef = new(
+        id: DiagnosticIds.UseActionRef,
+        title: AICopAnalyzers.UseActionRefTitle,
+        messageFormat: AICopAnalyzers.UseActionRefMessageFormat,
+        category: Category.Design,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: AICopAnalyzers.UseActionRefDescription,
+        helpLinkUri: "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-promoted-actions#actionref-syntax-example");
+
+    public static readonly DiagnosticDescriptor ExtensionMemberMissingSocSuffix = new(
+        id: DiagnosticIds.ExtensionMemberMissingSocSuffix,
+        title: AICopAnalyzers.ExtensionMemberMissingSocSuffixTitle,
+        messageFormat: AICopAnalyzers.ExtensionMemberMissingSocSuffixMessageFormat,
+        category: Category.Naming,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: AICopAnalyzers.ExtensionMemberMissingSocSuffixDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.ExtensionMemberMissingSocSuffix));
+
+    public static readonly DiagnosticDescriptor LocalProcedureHasSocSuffix = new(
+        id: DiagnosticIds.LocalProcedureHasSocSuffix,
+        title: AICopAnalyzers.LocalProcedureHasSocSuffixTitle,
+        messageFormat: AICopAnalyzers.LocalProcedureHasSocSuffixMessageFormat,
+        category: Category.Naming,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: AICopAnalyzers.LocalProcedureHasSocSuffixDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.LocalProcedureHasSocSuffix));
 
     public static string GetHelpUri(string identifier)
     {

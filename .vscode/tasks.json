@@ -5,7 +5,7 @@
       "label": "Build & Deploy Analyzers",
       "detail": "Build Socitas.ReviewerCop and copy DLLs to the AL extension's analyzer folder",
       "type": "shell",
-      "command": "dotnet build src/Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj --configuration Release --no-restore && dotnet build src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj --configuration Release --no-restore && AL_EXT=$(ls -d ~/.vscode-server/extensions/ms-dynamics-smb.al-*/bin/Analyzers 2>/dev/null | sort -V | tail -1) && cp src/Socitas.ReviewerCop.Common/bin/Release/net8.0/Socitas.ReviewerCop.Common.dll src/Socitas.ReviewerCop/bin/Release/net8.0/Socitas.ReviewerCop.dll \"$AL_EXT/\" && echo \"Deployed to $AL_EXT\"",
+      "command": "dotnet build src/Socitas.ReviewerCop.Common/Socitas.ReviewerCop.Common.csproj --configuration Release --no-restore && dotnet build src/Socitas.ReviewerCop/Socitas.ReviewerCop.csproj --configuration Release --no-restore && AL_EXT=$(ls -d ~/.vscode-server/extensions/ms-dynamics-smb.al-*/bin/Analyzers 2>/dev/null | sort -V | tail -1) && cp src/Socitas.ReviewerCop.Common/bin/Release/net8.0/Socitas.ReviewerCop.Common.dll src/Socitas.ReviewerCop/bin/Release/net8.0/Socitas.ReviewerCop.dll src/Socitas.AICop/bin/Release/net8.0/Socitas.AICop.dll \"$AL_EXT/\" && echo \"Deployed to $AL_EXT\"",
       "options": {
         "cwd": "${workspaceFolder}"
       },

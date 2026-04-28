@@ -49,6 +49,11 @@ public sealed class ValidateFieldAssignments : DiagnosticAnalyzer
         if (fieldSymbol.Id < 0 || fieldSymbol.Id >= 2000000000)
             return;
 
+        // A comment adjacent to the assignment (inline or immediately preceding line)
+        // serves as an explanation for why Validate is intentionally omitted.
+        if (HasAdjacentComment(assignment.Syntax))
+            return;
+
         var location = fieldAccess.Syntax?.GetIdentifierNameSyntax()?.GetLocation()
                        ?? fieldAccess.Syntax?.GetLocation();
 
@@ -59,5 +64,37 @@ public sealed class ValidateFieldAssignments : DiagnosticAnalyzer
             DiagnosticDescriptors.ValidateFieldAssignments,
             location,
             fieldSymbol.Name));
+    }
+
+    private static bool HasAdjacentComment(SyntaxNode? syntax)
+    {
+        if (syntax is null)
+            return false;
+
+        // Inline comment on the same line as the assignment
+        foreach (var trivia in syntax.GetLastToken().TrailingTrivia)
+        {
+            if (trivia.IsKind(EnumProvider.SyntaxKind.LineCommentTrivia))
+                return true;
+        }
+
+        // Comment on the immediately preceding line (no blank line between)
+        return IsPrecededByAdjacentComment(syntax.GetFirstToken().LeadingTrivia);
+    }
+
+    private static bool IsPrecededByAdjacentComment(SyntaxTriviaList leadingTrivia)
+    {
+        var commentKind = EnumProvider.SyntaxKind.LineCommentTrivia;
+        var endOfLineKind = EnumProvider.SyntaxKind.EndOfLineTrivia;
+        int eolCount = 0;
+        for (int i = leadingTrivia.Count - 1; i >= 0; i--)
+        {
+            var trivia = leadingTrivia[i];
+            if (trivia.IsKind(commentKind))
+                return eolCount <= 1;
+            if (trivia.IsKind(endOfLineKind))
+                eolCount++;
+        }
+        return false;
     }
 }

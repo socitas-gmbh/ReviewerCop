@@ -64,10 +64,13 @@
     <value>Avoid global variables in AL objects</value>
   </data>
   <data name="NoGlobalVariablesMessageFormat" xml:space="preserve">
-    <value>Global variable '{0}' should be avoided. Pass variables as parameters or use local variables instead.</value>
+    <value>Global variable '{0}' should be avoided. If it is only used within one procedure, make it a local variable. If multiple procedures need the value, pass it as a parameter instead.</value>
   </data>
   <data name="NoGlobalVariablesDescription" xml:space="preserve">
-    <value>Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables.</value>
+    <value>Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables. A guidance code action is available with step-by-step fix instructions.</value>
+  </data>
+  <data name="NoGlobalVariablesGuidanceAction" xml:space="preserve">
+    <value>To fix '{0}': Count how many procedures read or write this variable. If only one procedure uses it, remove it from the var section and re-declare it as a local variable inside that procedure. If multiple procedures use it, remove it from the var section, add it as a parameter (by value or var) to every procedure that needs it, and update all call sites to pass the value explicitly.</value>
   </data>
 
   <!-- AI0002: CaptionTooltipOnPage -->
@@ -78,7 +81,10 @@
     <value>'{0}' should not be set on the page field. Define it on the table field instead so it is shared across all pages.</value>
   </data>
   <data name="CaptionTooltipOnPageDescription" xml:space="preserve">
-    <value>Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place.</value>
+    <value>Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="CaptionTooltipOnPageGuidanceAction" xml:space="preserve">
+    <value>To fix '{0}': Find the table field this page field is bound to (the SourceExpr value). Move the {0} property from the page field to that table field's property list. If the table belongs to an external app, create a tableextension in the current app with a modify block for the field. A mechanical code fix is available to apply this change automatically.</value>
   </data>
   <data name="CaptionTooltipOnPageRemoveCodeAction" xml:space="preserve">
     <value>ALCops: Remove '{0}' from page field</value>
@@ -98,7 +104,10 @@
     <value>Opening brace '{{' must be on the same line as the declaration, not on a new line.</value>
   </data>
   <data name="OpenBraceOnSameLineDescription" xml:space="preserve">
-    <value>The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability.</value>
+    <value>The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="OpenBraceOnSameLineGuidanceAction" xml:space="preserve">
+    <value>To fix: Move the opening brace to the end of the preceding declaration line by removing the line break between them. The declaration and its opening brace must appear on the same line, e.g. 'field(1; MyField; Integer) {'. A mechanical code fix is available to apply this change automatically.</value>
   </data>
   <data name="OpenBraceOnSameLineCodeAction" xml:space="preserve">
     <value>ALCops: Move opening brace to same line</value>
@@ -112,7 +121,10 @@
     <value>Variable of type '{0}' detected. Use the "Rest Client" codeunit instead of raw HTTP types for simpler, more maintainable HTTP communication.</value>
   </data>
   <data name="UseRestClientDescription" xml:space="preserve">
-    <value>The "Rest Client" codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate.</value>
+    <value>The "Rest Client" codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate. A guidance code action is available with step-by-step migration instructions.</value>
+  </data>
+  <data name="UseRestClientGuidanceAction" xml:space="preserve">
+    <value>To fix: (1) Remove all raw HTTP variables (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders) from the var section and replace them with a single 'var RestClient: Codeunit "Rest Client"'. (2) Call RestClient.Initialize(Handler) once before use, passing a handler codeunit that implements "Http Client Handler". (3) Replace manual request-building and Send() calls with RestClient.Get(Url), RestClient.Post(Url, Content), RestClient.Put(Url, Content), RestClient.Delete(Url), or RestClient.Send(Method, Url) as appropriate. (4) Use RestClient.GetResponseAsText() or RestClient.GetResponseAsJson() to read the response instead of reading HttpResponseMessage directly.</value>
   </data>
 
   <!-- AI0005: InitializeRestClientWithHandler -->
@@ -123,10 +135,67 @@
     <value>RestClient.Initialize() must pass a handler codeunit defined in the current app. Create a codeunit that implements the "Http Client Handler" interface to centralize HTTP client configuration.</value>
   </data>
   <data name="InitializeRestClientWithHandlerDescription" xml:space="preserve">
-    <value>The "Rest Client" codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app's requirements.</value>
+    <value>The "Rest Client" codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app's requirements. A guidance code action is available with step-by-step fix instructions.</value>
+  </data>
+  <data name="InitializeRestClientWithHandlerGuidanceAction" xml:space="preserve">
+    <value>To fix: (1) Create a new codeunit in the current app that implements interface "Http Client Handler". Name it descriptively, e.g. "MyApp Http Client Handler". (2) In that codeunit, implement the GetHttpClientHandler() method — configure the handler with the app's timeout, default headers, or other HTTP client settings. (3) In the procedure that calls RestClient.Initialize(), declare 'var Handler: Codeunit "MyApp Http Client Handler"' and change the call to RestClient.Initialize(Handler). (4) If multiple procedures initialize a Rest Client, consider sharing the handler codeunit across all of them.</value>
+  </data>
+
+  <!-- AI0007: UseActionRef -->
+  <data name="UseActionRefTitle" xml:space="preserve">
+    <value>Replace promoted action with actionref in area(Promoted)</value>
+  </data>
+  <data name="UseActionRefMessageFormat" xml:space="preserve">
+    <value>Action '{0}' uses the deprecated Promoted property. Replace it with an actionref in area(Promoted).</value>
+  </data>
+  <data name="UseActionRefDescription" xml:space="preserve">
+    <value>The Promoted, PromotedOnly, and PromotedCategory properties are deprecated in AL. Use actionref declarations inside an area(Promoted) block to promote actions. This separates the action definition from its placement in the ribbon and is required for AppSource-compatible pages. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="UseActionRefGuidanceAction" xml:space="preserve">
+    <value>To fix '{0}': (1) Remove the Promoted, PromotedOnly, PromotedCategory, and PromotedIsBig properties from the action declaration. (2) In the page's actions section, add an area(Promoted) block if one does not already exist. (3) Inside area(Promoted), add 'actionref({0}_Promoted; {0}) {{ }}'. A mechanical code fix is available to apply this change automatically.</value>
+  </data>
+  <data name="UseActionRefCodeAction" xml:space="preserve">
+    <value>ALCops: Replace with actionref in area(Promoted)</value>
+  </data>
+
+  <!-- AI0008: ExtensionMemberMissingSocSuffix -->
+  <data name="ExtensionMemberMissingSocSuffixTitle" xml:space="preserve">
+    <value>Extension object members must end with the 'SOC' suffix</value>
+  </data>
+  <data name="ExtensionMemberMissingSocSuffixMessageFormat" xml:space="preserve">
+    <value>'{0}' does not end with 'SOC'. Non-local procedures, actions, and fields in extension objects must end with 'SOC' (e.g. 'OpenServiceCodesSOC' or 'Open Service Codes SOC').</value>
+  </data>
+  <data name="ExtensionMemberMissingSocSuffixDescription" xml:space="preserve">
+    <value>All non-local procedures, actions, and fields declared in extension objects (tableextension, pageextension, reportextension, enumextension) must end with the 'SOC' suffix to distinguish them from base-object members. Use 'NameSOC' for identifiers or 'Name SOC' for string-named members such as actions and fields. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="ExtensionMemberMissingSocSuffixGuidanceAction" xml:space="preserve">
+    <value>To fix '{0}': Append 'SOC' to the member name. For procedure identifiers append directly without a space (e.g. 'DoSomethingSOC'). For string-named actions and fields append ' SOC' with a space (e.g. 'Do Something SOC'). Update all call sites and references within the same file. Note: field names cannot exceed 30 characters — shorten the base name first if appending ' SOC' would exceed the limit. A mechanical code fix is available to apply this change automatically.</value>
+  </data>
+  <data name="ExtensionMemberMissingSocSuffixCodeAction" xml:space="preserve">
+    <value>ALCops: Append 'SOC' suffix to '{0}'</value>
+  </data>
+
+  <!-- AI0009: LocalProcedureHasSocSuffix -->
+  <data name="LocalProcedureHasSocSuffixTitle" xml:space="preserve">
+    <value>Local procedures in extension objects must not end with the 'SOC' suffix</value>
+  </data>
+  <data name="LocalProcedureHasSocSuffixMessageFormat" xml:space="preserve">
+    <value>Local procedure '{0}' ends with 'SOC'. Only non-local members need the 'SOC' suffix; remove it from local procedures.</value>
+  </data>
+  <data name="LocalProcedureHasSocSuffixDescription" xml:space="preserve">
+    <value>The 'SOC' suffix convention identifies members that are visible outside the extension object. Local procedures are implementation details and must not carry the suffix to avoid confusion. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="LocalProcedureHasSocSuffixGuidanceAction" xml:space="preserve">
+    <value>To fix '{0}': Remove the 'SOC' suffix from the procedure name (strip trailing 'SOC' or ' SOC'). Update all call sites within the same object to use the new name. A mechanical code fix is available to apply this change automatically.</value>
+  </data>
+  <data name="LocalProcedureHasSocSuffixCodeAction" xml:space="preserve">
+    <value>ALCops: Remove 'SOC' suffix from '{0}'</value>
   </data>
 
   <!-- AI0006: NoExitWithDefaultValue -->
+  <data name="NoExitWithDefaultValueCodeAction" xml:space="preserve">
+    <value>ALCops: Remove redundant default value from exit()</value>
+  </data>
   <data name="NoExitWithDefaultValueTitle" xml:space="preserve">
     <value>Do not use exit() with an explicit default value</value>
   </data>
@@ -134,6 +203,9 @@
     <value>exit() is called with the default value '{0}'. Use a bare exit; instead — AL returns the type's default automatically.</value>
   </data>
   <data name="NoExitWithDefaultValueDescription" xml:space="preserve">
-    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability.</value>
+    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="NoExitWithDefaultValueGuidanceAction" xml:space="preserve">
+    <value>To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type's default value when exit is called without an argument (false for Boolean, 0 for Integer, '' for Text/Code, empty for Record). A mechanical code fix is available to apply this change automatically.</value>
   </data>
 </root>

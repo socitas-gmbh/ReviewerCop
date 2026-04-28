@@ -1,3 +1,4 @@
+using Socitas.ReviewerCop.CodeFixes;
 using RoslynTestKit;
 
 namespace Socitas.ReviewerCop.Test
@@ -5,6 +6,7 @@ namespace Socitas.ReviewerCop.Test
     public class LabelCommentForPlaceholders : NavCodeAnalysisBase
     {
         private AnalyzerTestFixture _fixture;
+        private static readonly Analyzers.LabelCommentForPlaceholders _analyzer = new();
         private string _testCasePath;
 
         [SetUp]
@@ -32,12 +34,32 @@ namespace Socitas.ReviewerCop.Test
         [Test]
         [TestCase("LabelWithPlaceholderAndComment")]
         [TestCase("LabelWithoutPlaceholder")]
+        [TestCase("LockedLabelWithPlaceholder")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
                 .ConfigureAwait(false);
 
             _fixture.NoDiagnosticAtAllMarkers(code, DiagnosticIds.LabelCommentForPlaceholders);
+        }
+
+        [Test]
+        [TestCase("AddCommentToPlaceholderLabel")]
+        public async Task HasFix(string testCase)
+        {
+            var currentCode = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasFix), testCase, "current.al"))
+                .ConfigureAwait(false);
+
+            var expectedCode = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasFix), testCase, "expected.al"))
+                .ConfigureAwait(false);
+
+            var fixture = RoslynFixtureFactory.Create<LabelCommentForPlaceholdersFixProvider>(
+                new CodeFixTestFixtureConfig
+                {
+                    AdditionalAnalyzers = [_analyzer]
+                });
+
+            fixture.TestCodeFix(currentCode, expectedCode, DiagnosticDescriptors.LabelCommentForPlaceholders);
         }
     }
 }

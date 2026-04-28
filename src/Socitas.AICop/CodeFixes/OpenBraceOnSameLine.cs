@@ -54,6 +54,13 @@ public sealed class OpenBraceOnSameLineFixProvider : CodeFixProvider
                 nameof(OpenBraceOnSameLineFixProvider),
                 generateFixAll: true),
             ctx.Diagnostics[0]);
+
+        ctx.RegisterCodeFix(
+            new GuidanceCodeAction(
+                AICopAnalyzers.OpenBraceOnSameLineGuidanceAction,
+                nameof(OpenBraceOnSameLineFixProvider) + "_Guidance",
+                ctx.Document),
+            ctx.Diagnostics[0]);
     }
 
     private static async Task<Document> MoveOpenBraceAsync(

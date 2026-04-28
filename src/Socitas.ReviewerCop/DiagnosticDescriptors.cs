@@ -75,6 +75,16 @@ public static class DiagnosticDescriptors
         description: ReviewerCopAnalyzers.DataClassificationOnTableDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.DataClassificationOnTable));
 
+    public static readonly DiagnosticDescriptor TernaryOperator = new(
+        id: DiagnosticIds.TernaryOperator,
+        title: ReviewerCopAnalyzers.TernaryOperatorTitle,
+        messageFormat: ReviewerCopAnalyzers.TernaryOperatorMessageFormat,
+        category: Category.Style,
+        defaultSeverity: DiagnosticSeverity.Info,
+        isEnabledByDefault: true,
+        description: ReviewerCopAnalyzers.TernaryOperatorDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.TernaryOperator));
+
     public static readonly DiagnosticDescriptor LabelCommentForPlaceholders = new(
         id: DiagnosticIds.LabelCommentForPlaceholders,
         title: ReviewerCopAnalyzers.LabelCommentForPlaceholdersTitle,

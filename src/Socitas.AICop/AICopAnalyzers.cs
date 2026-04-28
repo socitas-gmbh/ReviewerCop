@@ -58,11 +58,20 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place..
+        ///   Looks up a localized string similar to Caption and ToolTip properties defined on page fields are not reused when the same field appears on other pages. Define these properties on the table field instead so that all pages inherit them automatically, reducing duplication and keeping translations in one place. A guidance code action and a mechanical code fix are both available..
         /// </summary>
         internal static string CaptionTooltipOnPageDescription {
             get {
                 return ResourceManager.GetString("CaptionTooltipOnPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix &apos;{0}&apos;: Find the table field this page field is bound to (the SourceExpr value). Move the {0} property from the page field to that table field&apos;s property list. If the table belongs to an external app, create a tableextension in the current app with a modify block for the field. A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string CaptionTooltipOnPageGuidanceAction {
+            get {
+                return ResourceManager.GetString("CaptionTooltipOnPageGuidanceAction", resourceCulture);
             }
         }
         
@@ -112,11 +121,65 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &quot;Rest Client&quot; codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app&apos;s requirements..
+        ///   Looks up a localized string similar to ALCops: Append &apos;SOC&apos; suffix to &apos;{0}&apos;.
+        /// </summary>
+        internal static string ExtensionMemberMissingSocSuffixCodeAction {
+            get {
+                return ResourceManager.GetString("ExtensionMemberMissingSocSuffixCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All non-local procedures, actions, and fields declared in extension objects (tableextension, pageextension, reportextension, enumextension) must end with the &apos;SOC&apos; suffix to distinguish them from base-object members. Use &apos;NameSOC&apos; for identifiers or &apos;Name SOC&apos; for string-named members such as actions and fields. A guidance code action and a mechanical code fix are both available..
+        /// </summary>
+        internal static string ExtensionMemberMissingSocSuffixDescription {
+            get {
+                return ResourceManager.GetString("ExtensionMemberMissingSocSuffixDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix &apos;{0}&apos;: Append &apos;SOC&apos; to the member name. For procedure identifiers append directly without a space (e.g. &apos;DoSomethingSOC&apos;). For string-named actions and fields append &apos; SOC&apos; with a space (e.g. &apos;Do Something SOC&apos;). Update all call sites and references within the same file. Note: field names cannot exceed 30 characters — shorten the base name first if appending &apos; SOC&apos; would exceed the limit. A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string ExtensionMemberMissingSocSuffixGuidanceAction {
+            get {
+                return ResourceManager.GetString("ExtensionMemberMissingSocSuffixGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; does not end with &apos;SOC&apos;. Non-local procedures, actions, and fields in extension objects must end with &apos;SOC&apos; (e.g. &apos;OpenServiceCodesSOC&apos; or &apos;Open Service Codes SOC&apos;)..
+        /// </summary>
+        internal static string ExtensionMemberMissingSocSuffixMessageFormat {
+            get {
+                return ResourceManager.GetString("ExtensionMemberMissingSocSuffixMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension object members must end with the &apos;SOC&apos; suffix.
+        /// </summary>
+        internal static string ExtensionMemberMissingSocSuffixTitle {
+            get {
+                return ResourceManager.GetString("ExtensionMemberMissingSocSuffixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &quot;Rest Client&quot; codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app&apos;s requirements. A guidance code action is available with step-by-step fix instructions..
         /// </summary>
         internal static string InitializeRestClientWithHandlerDescription {
             get {
                 return ResourceManager.GetString("InitializeRestClientWithHandlerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: (1) Create a new codeunit in the current app that implements interface &quot;Http Client Handler&quot;. Name it descriptively, e.g. &quot;MyApp Http Client Handler&quot;. (2) In that codeunit, implement the GetHttpClientHandler() method — configure the handler with the app&apos;s timeout, default headers, or other HTTP client settings. (3) In the procedure that calls RestClient.Initialize(), declare &apos;var Handler: Codeunit &quot;MyApp Http Client Handler&quot;&apos; and change the call to RestClient.Initialize(Handler). (4) If multiple pro [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InitializeRestClientWithHandlerGuidanceAction {
+            get {
+                return ResourceManager.GetString("InitializeRestClientWithHandlerGuidanceAction", resourceCulture);
             }
         }
         
@@ -139,11 +202,74 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When a procedure&apos;s exit statement passes the type&apos;s default value (false for Boolean, 0 for Integer, &apos;&apos; for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability..
+        ///   Looks up a localized string similar to ALCops: Remove &apos;SOC&apos; suffix from &apos;{0}&apos;.
+        /// </summary>
+        internal static string LocalProcedureHasSocSuffixCodeAction {
+            get {
+                return ResourceManager.GetString("LocalProcedureHasSocSuffixCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;SOC&apos; suffix convention identifies members that are visible outside the extension object. Local procedures are implementation details and must not carry the suffix to avoid confusion. A guidance code action and a mechanical code fix are both available..
+        /// </summary>
+        internal static string LocalProcedureHasSocSuffixDescription {
+            get {
+                return ResourceManager.GetString("LocalProcedureHasSocSuffixDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix &apos;{0}&apos;: Remove the &apos;SOC&apos; suffix from the procedure name (strip trailing &apos;SOC&apos; or &apos; SOC&apos;). Update all call sites within the same object to use the new name. A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string LocalProcedureHasSocSuffixGuidanceAction {
+            get {
+                return ResourceManager.GetString("LocalProcedureHasSocSuffixGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local procedure &apos;{0}&apos; ends with &apos;SOC&apos;. Only non-local members need the &apos;SOC&apos; suffix; remove it from local procedures..
+        /// </summary>
+        internal static string LocalProcedureHasSocSuffixMessageFormat {
+            get {
+                return ResourceManager.GetString("LocalProcedureHasSocSuffixMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local procedures in extension objects must not end with the &apos;SOC&apos; suffix.
+        /// </summary>
+        internal static string LocalProcedureHasSocSuffixTitle {
+            get {
+                return ResourceManager.GetString("LocalProcedureHasSocSuffixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ALCops: Remove redundant default value from exit().
+        /// </summary>
+        internal static string NoExitWithDefaultValueCodeAction {
+            get {
+                return ResourceManager.GetString("NoExitWithDefaultValueCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When a procedure&apos;s exit statement passes the type&apos;s default value (false for Boolean, 0 for Integer, &apos;&apos; for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available..
         /// </summary>
         internal static string NoExitWithDefaultValueDescription {
             get {
                 return ResourceManager.GetString("NoExitWithDefaultValueDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type&apos;s default value when exit is called without an argument (false for Boolean, 0 for Integer, &apos;&apos; for Text/Code, empty for Record). A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string NoExitWithDefaultValueGuidanceAction {
+            get {
+                return ResourceManager.GetString("NoExitWithDefaultValueGuidanceAction", resourceCulture);
             }
         }
         
@@ -166,7 +292,7 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables..
+        ///   Looks up a localized string similar to Global variables in AL objects create implicit coupling between procedures and make code harder to test and maintain. Prefer passing values as parameters or using local variables. A guidance code action is available with step-by-step fix instructions..
         /// </summary>
         internal static string NoGlobalVariablesDescription {
             get {
@@ -175,7 +301,16 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Global variable &apos;{0}&apos; should be avoided. Pass variables as parameters or use local variables instead..
+        ///   Looks up a localized string similar to To fix &apos;{0}&apos;: Count how many procedures read or write this variable. If only one procedure uses it, remove it from the var section and re-declare it as a local variable inside that procedure. If multiple procedures use it, remove it from the var section, add it as a parameter (by value or var) to every procedure that needs it, and update all call sites to pass the value explicitly..
+        /// </summary>
+        internal static string NoGlobalVariablesGuidanceAction {
+            get {
+                return ResourceManager.GetString("NoGlobalVariablesGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Global variable &apos;{0}&apos; should be avoided. If it is only used within one procedure, make it a local variable. If multiple procedures need the value, pass it as a parameter instead..
         /// </summary>
         internal static string NoGlobalVariablesMessageFormat {
             get {
@@ -202,11 +337,20 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability..
+        ///   Looks up a localized string similar to The opening brace of a field, column, or dataitem declaration must appear on the same line as the closing parenthesis. Placing the brace on a new line wastes vertical space and reduces readability. A guidance code action and a mechanical code fix are both available..
         /// </summary>
         internal static string OpenBraceOnSameLineDescription {
             get {
                 return ResourceManager.GetString("OpenBraceOnSameLineDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: Move the opening brace to the end of the preceding declaration line by removing the line break between them. The declaration and its opening brace must appear on the same line, e.g. &apos;field(1; MyField; Integer) {&apos;. A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string OpenBraceOnSameLineGuidanceAction {
+            get {
+                return ResourceManager.GetString("OpenBraceOnSameLineGuidanceAction", resourceCulture);
             }
         }
         
@@ -229,11 +373,65 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &quot;Rest Client&quot; codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate..
+        ///   Looks up a localized string similar to ALCops: Replace with actionref in area(Promoted).
+        /// </summary>
+        internal static string UseActionRefCodeAction {
+            get {
+                return ResourceManager.GetString("UseActionRefCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Promoted, PromotedOnly, and PromotedCategory properties are deprecated in AL. Use actionref declarations inside an area(Promoted) block to promote actions. This separates the action definition from its placement in the ribbon and is required for AppSource-compatible pages. A guidance code action and a mechanical code fix are both available..
+        /// </summary>
+        internal static string UseActionRefDescription {
+            get {
+                return ResourceManager.GetString("UseActionRefDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix &apos;{0}&apos;: (1) Remove the Promoted, PromotedOnly, PromotedCategory, and PromotedIsBig properties from the action declaration. (2) In the page&apos;s actions section, add an area(Promoted) block if one does not already exist. (3) Inside area(Promoted), add &apos;actionref({0}_Promoted; {0}) {{ }}&apos;. A mechanical code fix is available to apply this change automatically..
+        /// </summary>
+        internal static string UseActionRefGuidanceAction {
+            get {
+                return ResourceManager.GetString("UseActionRefGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action &apos;{0}&apos; uses the deprecated Promoted property. Replace it with an actionref in area(Promoted)..
+        /// </summary>
+        internal static string UseActionRefMessageFormat {
+            get {
+                return ResourceManager.GetString("UseActionRefMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace promoted action with actionref in area(Promoted).
+        /// </summary>
+        internal static string UseActionRefTitle {
+            get {
+                return ResourceManager.GetString("UseActionRefTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &quot;Rest Client&quot; codeunit provides a higher-level abstraction over raw HTTP types (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders). It simplifies HTTP communication by handling content creation, request execution, and response parsing in fewer lines of code with less boilerplate. A guidance code action is available with step-by-step migration instructions..
         /// </summary>
         internal static string UseRestClientDescription {
             get {
                 return ResourceManager.GetString("UseRestClientDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: (1) Remove all raw HTTP variables (HttpClient, HttpRequestMessage, HttpResponseMessage, HttpContent, HttpHeaders) from the var section and replace them with a single &apos;var RestClient: Codeunit &quot;Rest Client&quot;&apos;. (2) Call RestClient.Initialize(Handler) once before use, passing a handler codeunit that implements &quot;Http Client Handler&quot;. (3) Replace manual request-building and Send() calls with RestClient.Get(Url), RestClient.Post(Url, Content), RestClient.Put(Url, Content), RestClient.Delete(Url), or RestCl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UseRestClientGuidanceAction {
+            get {
+                return ResourceManager.GetString("UseRestClientGuidanceAction", resourceCulture);
             }
         }
         

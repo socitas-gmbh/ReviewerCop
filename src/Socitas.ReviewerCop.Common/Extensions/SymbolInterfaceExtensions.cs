@@ -45,6 +45,53 @@ public static class SymbolInterfaceExtensions
         return $"{containingNamespace}.{symbolName}";
     }
 
+    /// <summary>
+    /// Returns true when the symbol has at least one source location in the current compilation,
+    /// meaning it is defined in the current app rather than in a dependency or system module.
+    /// Uses reflection because ISymbol.Locations is not always surfaced through the public BC SDK interface.
+    /// </summary>
+    public static bool IsDefinedInSource(this ISymbol symbol)
+    {
+        try
+        {
+            var locProp = GetPublicPropertyFromTypeOrInterfaces(symbol, "Locations");
+            if (locProp is null)
+                return false;
+
+            if (locProp.GetValue(symbol) is not System.Collections.IEnumerable locations)
+                return false;
+
+            foreach (var loc in locations)
+            {
+                if (loc is null)
+                    continue;
+                var isInSource = loc.GetType().GetProperty("IsInSource")?.GetValue(loc) as bool?;
+                if (isInSource == true)
+                    return true;
+            }
+        }
+        catch { }
+
+        return false;
+    }
+
+    private static PropertyInfo? GetPublicPropertyFromTypeOrInterfaces(object obj, string propertyName)
+    {
+        var type = obj.GetType();
+        var prop = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+        if (prop is not null)
+            return prop;
+
+        foreach (var iface in type.GetInterfaces())
+        {
+            prop = iface.GetProperty(propertyName);
+            if (prop is not null)
+                return prop;
+        }
+
+        return null;
+    }
+
     #region Obsolete Extension Methods
     private static readonly Lazy<PropertyInfo?> _isObsoletePendingMoveProperty =
         new(() => typeof(ISymbol).GetProperty("IsObsoletePendingMove"));

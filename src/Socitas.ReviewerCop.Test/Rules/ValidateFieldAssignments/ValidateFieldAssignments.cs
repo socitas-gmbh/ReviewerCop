@@ -34,6 +34,8 @@ namespace Socitas.ReviewerCop.Test
         [Test]
         [TestCase("ValidateUsed")]
         [TestCase("TemporaryRecordAssignment")]
+        [TestCase("InlineComment")]
+        [TestCase("PrecedingLineComment")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
