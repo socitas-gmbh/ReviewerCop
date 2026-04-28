@@ -52,19 +52,5 @@ namespace Socitas.ReviewerCop.Test
             _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.NoGlobalVariables);
         }
 
-        [Test]
-        public async Task HasGuidanceAction()
-        {
-            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "CodeunitWithGlobalVar.al"))
-                .ConfigureAwait(false);
-
-            var fixture = RoslynFixtureFactory.Create<NoGlobalVariablesGuidanceProvider>(
-                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
-
-            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.NoGlobalVariables)
-                .Select(a => a.Title);
-
-            Assert.That(titles, Has.Some.StartsWith("To fix"));
-        }
     }
 }

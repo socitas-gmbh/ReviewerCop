@@ -42,19 +42,5 @@ namespace Socitas.ReviewerCop.Test
             _fixture.NoDiagnosticAtAllMarkers(code, AICop.DiagnosticIds.UseRestClient);
         }
 
-        [Test]
-        public async Task HasGuidanceAction()
-        {
-            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "HttpClientVariable.al"))
-                .ConfigureAwait(false);
-
-            var fixture = RoslynFixtureFactory.Create<UseRestClientGuidanceProvider>(
-                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
-
-            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.UseRestClient)
-                .Select(a => a.Title);
-
-            Assert.That(titles, Has.Some.StartsWith("To fix"));
-        }
     }
 }

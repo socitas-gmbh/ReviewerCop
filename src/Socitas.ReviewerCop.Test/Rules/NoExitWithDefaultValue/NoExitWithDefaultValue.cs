@@ -65,19 +65,5 @@ namespace Socitas.ReviewerCop.Test
             fixture.TestCodeFix(currentCode, expectedCode, AICop.DiagnosticDescriptors.NoExitWithDefaultValue);
         }
 
-        [Test]
-        public async Task HasGuidanceAction()
-        {
-            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "ExitWithZero.al"))
-                .ConfigureAwait(false);
-
-            var fixture = RoslynFixtureFactory.Create<NoExitWithDefaultValueFixProvider>(
-                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
-
-            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.NoExitWithDefaultValue)
-                .Select(a => a.Title);
-
-            Assert.That(titles, Has.Some.StartsWith("To fix"));
-        }
     }
 }

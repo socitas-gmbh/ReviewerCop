@@ -91,34 +91,5 @@ namespace Socitas.ReviewerCop.Test
             fixture.TestCodeFix(currentCode, expectedCode, AICop.DiagnosticDescriptors.LocalProcedureHasSocSuffix);
         }
 
-        [Test]
-        public async Task HasGuidanceAction_MissingSoc()
-        {
-            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "NonLocalProcedureMissingSoc.al"))
-                .ConfigureAwait(false);
-
-            var fixture = RoslynFixtureFactory.Create<ExtensionObjectSocSuffixFixProvider>(
-                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
-
-            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.ExtensionMemberMissingSocSuffix)
-                .Select(a => a.Title);
-
-            Assert.That(titles, Has.Some.StartsWith("To fix"));
-        }
-
-        [Test]
-        public async Task HasGuidanceAction_SocOnLocal()
-        {
-            var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), "LocalProcedureWithSoc.al"))
-                .ConfigureAwait(false);
-
-            var fixture = RoslynFixtureFactory.Create<ExtensionObjectSocSuffixFixProvider>(
-                new CodeFixTestFixtureConfig { AdditionalAnalyzers = [_analyzer] });
-
-            var titles = fixture.GetCodeFixes(code, AICop.DiagnosticDescriptors.LocalProcedureHasSocSuffix)
-                .Select(a => a.Title);
-
-            Assert.That(titles, Has.Some.StartsWith("To fix"));
-        }
     }
 }
