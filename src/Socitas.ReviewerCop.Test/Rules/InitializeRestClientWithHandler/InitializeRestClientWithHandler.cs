@@ -35,6 +35,7 @@ namespace Socitas.ReviewerCop.Test
         [TestCase("WithLocalHandler")]
         [TestCase("WithLocalHandlerAndAuth")]
         [TestCase("WithLocalHandlerSystemAuth")]
+        [TestCase("SingleInterfaceArgFromVarParam")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))

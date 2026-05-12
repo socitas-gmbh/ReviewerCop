@@ -38,6 +38,7 @@ If you already install `BusinessCentral.LinterCop` in your pipelines, ReviewerCo
 | RC0006 | No Modify in OnValidate | Style | Warning | Reviewer Cop |
 | RC0007 | Data Classification on Table | Design | Warning | Reviewer Cop |
 | RC0008 | Label Comment for Placeholders | Style | Info | Reviewer Cop |
+| RC0009 | Ternary Operator | Style | Warning | Reviewer Cop |
 | AI0001 | No Global Variables | Style | Warning | AI Cop |
 | AI0002 | Caption and ToolTip on Page | Design | Warning | AI Cop |
 | AI0003 | Open Brace on Same Line | Style | Warning | AI Cop |
@@ -47,6 +48,7 @@ If you already install `BusinessCentral.LinterCop` in your pipelines, ReviewerCo
 | AI0007 | Use Action Ref | Design | Warning | AI Cop |
 | AI0008 | Extension Object Member Missing SOC Suffix | Naming | Warning | AI Cop |
 | AI0009 | Local Procedure Has SOC Suffix | Naming | Warning | AI Cop |
+| AI0010 | Hand-Rolled JsonObject Reader | Design | Warning | AI Cop |
 
 ## Compatibility
 

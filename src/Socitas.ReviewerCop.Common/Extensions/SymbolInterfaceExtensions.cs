@@ -46,28 +46,42 @@ public static class SymbolInterfaceExtensions
     }
 
     /// <summary>
-    /// Returns true when the symbol has at least one source location in the current compilation,
-    /// meaning it is defined in the current app rather than in a dependency or system module.
-    /// Uses reflection because ISymbol.Locations is not always surfaced through the public BC SDK interface.
+    /// Returns true when the symbol is defined in the current compilation's source rather than
+    /// in a dependency or system module. Uses reflection because the BC SDK surface differs from
+    /// Roslyn's: ISymbol exposes a single <c>Location</c> (singular), and concrete symbols such as
+    /// ApplicationObjectTypeSymbol expose a direct <c>IsInSource</c> boolean.
     /// </summary>
     public static bool IsDefinedInSource(this ISymbol symbol)
     {
         try
         {
-            var locProp = GetPublicPropertyFromTypeOrInterfaces(symbol, "Locations");
-            if (locProp is null)
-                return false;
+            // Strategy 1: direct IsInSource bool on the symbol (present on BC concrete symbol types).
+            var directIsInSource = GetPublicPropertyFromTypeOrInterfaces(symbol, "IsInSource")?.GetValue(symbol) as bool?;
+            if (directIsInSource.HasValue)
+                return directIsInSource.Value;
 
-            if (locProp.GetValue(symbol) is not System.Collections.IEnumerable locations)
-                return false;
-
-            foreach (var loc in locations)
+            // Strategy 2: BC SDK's singular ISymbol.Location property.
+            var singleLocProp = GetPublicPropertyFromTypeOrInterfaces(symbol, "Location");
+            if (singleLocProp is not null)
             {
-                if (loc is null)
-                    continue;
-                var isInSource = loc.GetType().GetProperty("IsInSource")?.GetValue(loc) as bool?;
-                if (isInSource == true)
-                    return true;
+                var loc = singleLocProp.GetValue(symbol);
+                var isInSource = loc?.GetType().GetProperty("IsInSource")?.GetValue(loc) as bool?;
+                if (isInSource.HasValue)
+                    return isInSource.Value;
+            }
+
+            // Strategy 3: Roslyn-style plural Locations (kept for forward compatibility with future SDKs).
+            var locProp = GetPublicPropertyFromTypeOrInterfaces(symbol, "Locations");
+            if (locProp?.GetValue(symbol) is System.Collections.IEnumerable locations)
+            {
+                foreach (var loc in locations)
+                {
+                    if (loc is null)
+                        continue;
+                    var isInSource = loc.GetType().GetProperty("IsInSource")?.GetValue(loc) as bool?;
+                    if (isInSource == true)
+                        return true;
+                }
             }
         }
         catch { }

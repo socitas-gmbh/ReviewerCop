@@ -47,7 +47,7 @@ public sealed class NoExitWithDefaultValue : DiagnosticAnalyzer
 
     /// <summary>
     /// Returns true when the LiteralExpression contains a default value:
-    /// false, 0, or '' (empty string).
+    /// false, 0, '' (empty string), 0D (date), 0T (time), or 0DT (datetime).
     /// </summary>
     private static bool IsDefaultLiteral(SyntaxNode literal)
     {
@@ -65,6 +65,12 @@ public sealed class NoExitWithDefaultValue : DiagnosticAnalyzer
         // '' — represented as a single StringLiteralToken with ValueText "''"
         if (token.IsKind(EnumProvider.SyntaxKind.StringLiteralToken)
             && (token.ValueText == "''" || token.ValueText == "" || token.ToString().Trim() == "''"))
+            return true;
+
+        // 0D, 0T, 0DT — AL only emits these canonical forms for the default
+        // Date / Time / DateTime literals, so a text match is sufficient.
+        var text = token.ToString().Trim();
+        if (text == "0D" || text == "0T" || text == "0DT")
             return true;
 
         return false;

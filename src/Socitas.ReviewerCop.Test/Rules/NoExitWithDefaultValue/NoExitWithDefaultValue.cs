@@ -25,6 +25,9 @@ namespace Socitas.ReviewerCop.Test
         [TestCase("ExitWithFalse")]
         [TestCase("ExitWithZero")]
         [TestCase("ExitWithEmptyString")]
+        [TestCase("ExitWithZeroDate")]
+        [TestCase("ExitWithZeroTime")]
+        [TestCase("ExitWithZeroDateTime")]
         public async Task HasDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasDiagnostic), $"{testCase}.al"))
@@ -38,6 +41,7 @@ namespace Socitas.ReviewerCop.Test
         [TestCase("ExitWithNonZero")]
         [TestCase("BareExit")]
         [TestCase("ExitWithNonEmptyString")]
+        [TestCase("ExitWithNonDefaultDateTime")]
         public async Task NoDiagnostic(string testCase)
         {
             var code = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(NoDiagnostic), $"{testCase}.al"))
@@ -48,6 +52,7 @@ namespace Socitas.ReviewerCop.Test
 
         [Test]
         [TestCase("StripDefaultArgument")]
+        [TestCase("StripDefaultDateTimeArgument")]
         public async Task HasFix(string testCase)
         {
             var currentCode = await File.ReadAllTextAsync(Path.Combine(_testCasePath, nameof(HasFix), testCase, "current.al"))

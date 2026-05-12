@@ -31,12 +31,12 @@ codeunit 50701 "Http Authentication Basic" implements "Http Authentication"
 
 codeunit 50601 WithLocalHandlerAndAuthTest
 {
-    procedure [||]InitRestClient()
+    procedure InitRestClient()
     var
         RestClient: Codeunit "Rest Client";
         SocitasHttpClientHandler: Codeunit "Client Handler";
         HttpBasicAuth: Codeunit "Http Authentication Basic";
     begin
-        RestClient.Initialize(SocitasHttpClientHandler, HttpBasicAuth);
+        [||]RestClient.Initialize(SocitasHttpClientHandler, HttpBasicAuth);
     end;
 }

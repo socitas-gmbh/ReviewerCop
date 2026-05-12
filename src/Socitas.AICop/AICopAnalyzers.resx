@@ -192,6 +192,23 @@
     <value>ALCops: Remove 'SOC' suffix from '{0}'</value>
   </data>
 
+  <!-- AI0010: HandRolledJsonReader -->
+  <data name="HandRolledJsonReaderTitle" xml:space="preserve">
+    <value>Replace hand-rolled JsonObject reader chain with JsonObject.Get&lt;Type&gt;(Key, true)</value>
+  </data>
+  <data name="HandRolledJsonReaderMessageFormat" xml:space="preserve">
+    <value>This pattern reimplements JsonObject.{0}(Key, true). Replace the entire 'if JsonObj.Get(Key, Token) then ... Token.AsValue().As&lt;Type&gt;()' chain with a single call to JsonObj.{0}(Key, true).</value>
+  </data>
+  <data name="HandRolledJsonReaderDescription" xml:space="preserve">
+    <value>JsonObject exposes built-in shortcut methods (GetText, GetBoolean, GetInteger, GetBigInteger, GetDecimal, GetByte, GetChar, GetDate, GetDateTime, GetTime, GetDuration, GetObject, GetArray) that combine the Get(Key, Token) lookup, the optional null guard, and the AsValue().As&lt;Type&gt;() unwrap into one call. The second parameter 'DefaultIfNotFound = true' returns the type's default when the key is missing or the value is JSON null, matching the hand-rolled pattern. A guidance code action and a mechanical code fix are both available.</value>
+  </data>
+  <data name="HandRolledJsonReaderGuidanceAction" xml:space="preserve">
+    <value>To fix: (1) Identify the JsonObject receiver, the key argument, and the destination variable from the current 'if JsonObj.Get(Key, Token) then Lhs := Token.AsValue().As&lt;Type&gt;();' shape. (2) Replace the entire if-statement (including any inner 'if not Token.AsValue().IsNull()' guard) with one assignment: 'Lhs := JsonObj.{0}(Key, true);' — the boolean 'true' is the DefaultIfNotFound flag and makes the call return the type's default when the key is missing or the JSON value is null, matching the original semantics. (3) If the JsonToken local variable was declared only to hold the intermediate Get-output and is no longer referenced elsewhere, remove its declaration from the var section. (4) For container shortcuts (GetObject, GetArray), the destination must be declared as JsonObject / JsonArray respectively. A mechanical code fix is available to apply this change automatically.</value>
+  </data>
+  <data name="HandRolledJsonReaderCodeAction" xml:space="preserve">
+    <value>ALCops: Replace with JsonObject.{0}(Key, true)</value>
+  </data>
+
   <!-- AI0006: NoExitWithDefaultValue -->
   <data name="NoExitWithDefaultValueCodeAction" xml:space="preserve">
     <value>ALCops: Remove redundant default value from exit()</value>
@@ -203,9 +220,9 @@
     <value>exit() is called with the default value '{0}'. Use a bare exit; instead — AL returns the type's default automatically.</value>
   </data>
   <data name="NoExitWithDefaultValueDescription" xml:space="preserve">
-    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer, '' for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available.</value>
+    <value>When a procedure's exit statement passes the type's default value (false for Boolean, 0 for Integer/Decimal/Duration, '' for Text/Code, 0D for Date, 0T for Time, 0DT for DateTime), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available.</value>
   </data>
   <data name="NoExitWithDefaultValueGuidanceAction" xml:space="preserve">
-    <value>To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type's default value when exit is called without an argument (false for Boolean, 0 for Integer, '' for Text/Code, empty for Record). A mechanical code fix is available to apply this change automatically.</value>
+    <value>To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type's default value when exit is called without an argument (false for Boolean, 0 for Integer/Decimal/Duration, '' for Text/Code, 0D for Date, 0T for Time, 0DT for DateTime, empty for Record). A mechanical code fix is available to apply this change automatically.</value>
   </data>
 </root>

@@ -166,6 +166,51 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ALCops: Replace with JsonObject.{0}(Key, true).
+        /// </summary>
+        internal static string HandRolledJsonReaderCodeAction {
+            get {
+                return ResourceManager.GetString("HandRolledJsonReaderCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JsonObject exposes built-in shortcut methods (GetText, GetBoolean, GetInteger, GetBigInteger, GetDecimal, GetByte, GetChar, GetDate, GetDateTime, GetTime, GetDuration, GetObject, GetArray) that combine the Get(Key, Token) lookup, the optional null guard, and the AsValue().As&lt;Type&gt;() unwrap into one call. The second parameter &apos;DefaultIfNotFound = true&apos; returns the type&apos;s default when the key is missing or the value is JSON null, matching the hand-rolled pattern. A guidance code action and a mechanical code f [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HandRolledJsonReaderDescription {
+            get {
+                return ResourceManager.GetString("HandRolledJsonReaderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: (1) Identify the JsonObject receiver, the key argument, and the destination variable from the current &apos;if JsonObj.Get(Key, Token) then Lhs := Token.AsValue().As&lt;Type&gt;();&apos; shape. (2) Replace the entire if-statement (including any inner &apos;if not Token.AsValue().IsNull()&apos; guard) with one assignment: &apos;Lhs := JsonObj.{0}(Key, true);&apos; — the boolean &apos;true&apos; is the DefaultIfNotFound flag and makes the call return the type&apos;s default when the key is missing or the JSON value is null, matching the original seman [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HandRolledJsonReaderGuidanceAction {
+            get {
+                return ResourceManager.GetString("HandRolledJsonReaderGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This pattern reimplements JsonObject.{0}(Key, true). Replace the entire &apos;if JsonObj.Get(Key, Token) then ... Token.AsValue().As&lt;Type&gt;()&apos; chain with a single call to JsonObj.{0}(Key, true)..
+        /// </summary>
+        internal static string HandRolledJsonReaderMessageFormat {
+            get {
+                return ResourceManager.GetString("HandRolledJsonReaderMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace hand-rolled JsonObject reader chain with JsonObject.Get&lt;Type&gt;(Key, true).
+        /// </summary>
+        internal static string HandRolledJsonReaderTitle {
+            get {
+                return ResourceManager.GetString("HandRolledJsonReaderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &quot;Rest Client&quot; codeunit should be initialized with a custom handler codeunit defined in the current app. This ensures HTTP client configuration (timeouts, default headers, retry policies) is centralized and consistent across all HTTP calls. Without a local handler, the default system handler is used, which may not match the app&apos;s requirements. A guidance code action is available with step-by-step fix instructions..
         /// </summary>
         internal static string InitializeRestClientWithHandlerDescription {
@@ -256,7 +301,7 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When a procedure&apos;s exit statement passes the type&apos;s default value (false for Boolean, 0 for Integer, &apos;&apos; for Text/Code), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available..
+        ///   Looks up a localized string similar to When a procedure&apos;s exit statement passes the type&apos;s default value (false for Boolean, 0 for Integer/Decimal/Duration, &apos;&apos; for Text/Code, 0D for Date, 0T for Time, 0DT for DateTime), the explicit value is redundant. A bare exit; (without an argument) already returns the default. Removing the redundant value improves readability. A guidance code action and a mechanical code fix are both available..
         /// </summary>
         internal static string NoExitWithDefaultValueDescription {
             get {
@@ -265,7 +310,7 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type&apos;s default value when exit is called without an argument (false for Boolean, 0 for Integer, &apos;&apos; for Text/Code, empty for Record). A mechanical code fix is available to apply this change automatically..
+        ///   Looks up a localized string similar to To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type&apos;s default value when exit is called without an argument (false for Boolean, 0 for Integer/Decimal/Duration, &apos;&apos; for Text/Code, 0D for Date, 0T for Time, 0DT for DateTime, empty for Record). A mechanical code fix is available to apply this change automatically..
         /// </summary>
         internal static string NoExitWithDefaultValueGuidanceAction {
             get {

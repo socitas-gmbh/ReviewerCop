@@ -14,11 +14,11 @@ codeunit 50700 "Client Handler"
 
 codeunit 50601 WithLocalHandlerTest
 {
-    procedure [||]SendRequest()
+    procedure SendRequest()
     var
         RestClient: Codeunit "Rest Client";
         MyHandler: Codeunit "Client Handler";
     begin
-        RestClient.Initialize(MyHandler);
+        [||]RestClient.Initialize(MyHandler);
     end;
 }

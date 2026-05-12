@@ -95,6 +95,16 @@ public static class DiagnosticDescriptors
         description: AICopAnalyzers.LocalProcedureHasSocSuffixDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.LocalProcedureHasSocSuffix));
 
+    public static readonly DiagnosticDescriptor HandRolledJsonReader = new(
+        id: DiagnosticIds.HandRolledJsonReader,
+        title: AICopAnalyzers.HandRolledJsonReaderTitle,
+        messageFormat: AICopAnalyzers.HandRolledJsonReaderMessageFormat,
+        category: Category.Design,
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: AICopAnalyzers.HandRolledJsonReaderDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.HandRolledJsonReader));
+
     public static string GetHelpUri(string identifier)
     {
         return string.Format(CultureInfo.InvariantCulture, "https://company.internal/docs/analyzers/aicop/{0}/", identifier.ToLower());
