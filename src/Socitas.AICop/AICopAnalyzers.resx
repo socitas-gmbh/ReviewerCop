@@ -225,4 +225,18 @@
   <data name="NoExitWithDefaultValueGuidanceAction" xml:space="preserve">
     <value>To fix: Remove the argument from exit() and use a bare exit; instead. AL automatically returns the type's default value when exit is called without an argument (false for Boolean, 0 for Integer/Decimal/Duration, '' for Text/Code, 0D for Date, 0T for Time, 0DT for DateTime, empty for Record). A mechanical code fix is available to apply this change automatically.</value>
   </data>
+
+  <!-- AI0012: SetLoadFieldsOnFlowField -->
+  <data name="SetLoadFieldsOnFlowFieldTitle" xml:space="preserve">
+    <value>Do not pass FlowFields to SetLoadFields or AddLoadFields</value>
+  </data>
+  <data name="SetLoadFieldsOnFlowFieldMessageFormat" xml:space="preserve">
+    <value>FlowField '{0}' must not be passed to {1}. Remove it and call SetAutoCalcFields({0}) on the same record before the Find/Get, or CalcFields({0}) after it.</value>
+  </data>
+  <data name="SetLoadFieldsOnFlowFieldDescription" xml:space="preserve">
+    <value>SetLoadFields and AddLoadFields only control which normal fields are read from the database. A FlowField must never be listed there, regardless of any SetAutoCalcFields or CalcFields call around it. Calculate the value explicitly instead, either with SetAutoCalcFields on the same record variable before the record is retrieved, or with CalcFields on the same record variable after it is retrieved. A guidance code action is available.</value>
+  </data>
+  <data name="SetLoadFieldsOnFlowFieldGuidanceAction" xml:space="preserve">
+    <value>To fix: (1) Identify the FlowField named in the message and the record variable that SetLoadFields/AddLoadFields is called on. (2) If the record is read in a loop (FindSet/repeat ... until Next() = 0) or the value is needed for every retrieved record, call RecordVar.SetAutoCalcFields(FlowFieldName) on the same record variable BEFORE the Find/Get call, so the platform calculates the FlowField while reading. (3) If the value is needed only for a single record or only conditionally, call RecordVar.CalcFields(FlowFieldName) on the same record variable AFTER the Find/Get call and before the FlowField value is read. (4) Remove the FlowField from the SetLoadFields/AddLoadFields argument list in every case, even when SetAutoCalcFields or CalcFields is already present; if it was the only argument, remove the whole SetLoadFields/AddLoadFields call only when no normal fields need to be restricted, otherwise keep the call with the normal fields. (5) Do not replace the FlowField by recomputing its value manually (e.g. with CalcSums on the source table) unless the code must deviate from the FlowField definition.</value>
+  </data>
 </root>

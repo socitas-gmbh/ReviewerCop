@@ -105,6 +105,16 @@ public static class DiagnosticDescriptors
         description: AICopAnalyzers.HandRolledJsonReaderDescription,
         helpLinkUri: GetHelpUri(DiagnosticIds.HandRolledJsonReader));
 
+    public static readonly DiagnosticDescriptor SetLoadFieldsOnFlowField = new(
+        id: DiagnosticIds.SetLoadFieldsOnFlowField,
+        title: AICopAnalyzers.SetLoadFieldsOnFlowFieldTitle,
+        messageFormat: AICopAnalyzers.SetLoadFieldsOnFlowFieldMessageFormat,
+        category: Category.Performance,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: AICopAnalyzers.SetLoadFieldsOnFlowFieldDescription,
+        helpLinkUri: GetHelpUri(DiagnosticIds.SetLoadFieldsOnFlowField));
+
     public static string GetHelpUri(string identifier)
     {
         return string.Format(CultureInfo.InvariantCulture, "https://company.internal/docs/analyzers/aicop/{0}/", identifier.ToLower());

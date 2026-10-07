@@ -12,4 +12,5 @@ public static class DiagnosticIds
     public static readonly string ExtensionMemberMissingSocSuffix = "AI0008";
     public static readonly string LocalProcedureHasSocSuffix = "AI0009";
     public static readonly string HandRolledJsonReader = "AI0010";
+    public static readonly string SetLoadFieldsOnFlowField = "AI0012";
 }

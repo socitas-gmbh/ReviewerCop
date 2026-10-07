@@ -418,6 +418,42 @@ namespace Socitas.AICop {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SetLoadFields and AddLoadFields only control which normal fields are read from the database. A FlowField must never be listed there, regardless of any SetAutoCalcFields or CalcFields call around it. Calculate the value explicitly instead, either with SetAutoCalcFields on the same record variable before the record is retrieved, or with CalcFields on the same record variable after it is retrieved. A guidance code action is available..
+        /// </summary>
+        internal static string SetLoadFieldsOnFlowFieldDescription {
+            get {
+                return ResourceManager.GetString("SetLoadFieldsOnFlowFieldDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To fix: (1) Identify the FlowField named in the message and the record variable that SetLoadFields/AddLoadFields is called on. (2) If the record is read in a loop (FindSet/repeat ... until Next() = 0) or the value is needed for every retrieved record, call RecordVar.SetAutoCalcFields(FlowFieldName) on the same record variable BEFORE the Find/Get call, so the platform calculates the FlowField while reading. (3) If the value is needed only for a single record or only conditionally, call RecordVar.CalcFields(F [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SetLoadFieldsOnFlowFieldGuidanceAction {
+            get {
+                return ResourceManager.GetString("SetLoadFieldsOnFlowFieldGuidanceAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FlowField &apos;{0}&apos; must not be passed to {1}. Remove it and call SetAutoCalcFields({0}) on the same record before the Find/Get, or CalcFields({0}) after it..
+        /// </summary>
+        internal static string SetLoadFieldsOnFlowFieldMessageFormat {
+            get {
+                return ResourceManager.GetString("SetLoadFieldsOnFlowFieldMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not pass FlowFields to SetLoadFields or AddLoadFields.
+        /// </summary>
+        internal static string SetLoadFieldsOnFlowFieldTitle {
+            get {
+                return ResourceManager.GetString("SetLoadFieldsOnFlowFieldTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ALCops: Replace with actionref in area(Promoted).
         /// </summary>
         internal static string UseActionRefCodeAction {
